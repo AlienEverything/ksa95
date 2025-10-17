@@ -1,4 +1,1213 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Aurora Odyssey is an immersive speculative expedition blending cosmic storytelling, adaptive missions, and luminous data experiences." />
+    <meta name="theme-color" content="#050923" />
+    <title>Aurora Odyssey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=IBM+Plex+Mono:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: radial-gradient(circle at top left, rgba(142, 45, 226, 0.35), rgba(74, 0, 224, 0.35)), linear-gradient(135deg, #020024 0%, #090979 35%, #00d4ff 100%);
+            --glass: rgba(255, 255, 255, 0.12);
+            --highlight: #00f6ff;
+            --accent: #f8ffae;
+            --shadow: 0 25px 60px rgba(3, 5, 38, 0.35);
+            --text: rgba(255, 255, 255, 0.88);
+            --text-muted: rgba(255, 255, 255, 0.62);
+            --dark: #050923;
+            --max-width: min(1100px, 92vw);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            color: var(--text);
+            font-family: "Space Grotesk", system-ui, sans-serif;
+            background: var(--bg);
+            background-attachment: fixed;
+            scroll-behavior: smooth;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 35%),
+                        radial-gradient(circle at 80% 10%, rgba(0, 255, 250, 0.3) 0%, rgba(0, 255, 250, 0) 40%),
+                        radial-gradient(circle at 50% 80%, rgba(255, 86, 197, 0.2) 0%, rgba(255, 86, 197, 0) 45%);
+            z-index: -1;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        p {
+            line-height: 1.7;
+        }
+
+        .nav {
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(20px);
+            background: linear-gradient(90deg, rgba(5, 9, 35, 0.95), rgba(9, 9, 121, 0.5));
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px clamp(1.5rem, 4vw, 3.5rem);
+            z-index: 10;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .nav__brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-family: "IBM Plex Mono", monospace;
+            font-weight: 500;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+        }
+
+        .nav__brand span {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(0, 246, 255, 0.7), rgba(165, 105, 255, 0.35));
+            color: #010413;
+        }
+
+        .nav__links {
+            display: flex;
+            gap: 1.75rem;
+        }
+
+        .nav__links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .nav__links a:hover {
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .nav__actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: background 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .btn--primary {
+            background: linear-gradient(135deg, rgba(0, 246, 255, 0.8), rgba(165, 105, 255, 0.7));
+            color: #030927;
+            border: none;
+            box-shadow: 0 10px 25px rgba(0, 246, 255, 0.25);
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.35);
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            align-items: center;
+            gap: clamp(2rem, 5vw, 4rem);
+            padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 4vw, 4rem);
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        .hero__headline {
+            position: relative;
+        }
+
+        .hero__headline::before {
+            content: "";
+            position: absolute;
+            top: -20px;
+            left: -40px;
+            width: 130px;
+            height: 130px;
+            background: conic-gradient(from 120deg, rgba(0, 246, 255, 0.45), rgba(255, 255, 255, 0));
+            filter: blur(10px);
+            opacity: 0.7;
+            animation: pulse 8s infinite;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 5vw, 4.5rem);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+        }
+
+        .hero__insight {
+            padding: 2rem;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+            border-radius: 30px;
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero__insight::after {
+            content: "";
+            position: absolute;
+            inset: -40% 20% 60% -30%;
+            background: radial-gradient(circle, rgba(248, 255, 174, 0.55), rgba(248, 255, 174, 0));
+            animation: orbit 18s linear infinite;
+        }
+
+        .hero__stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat {
+            padding: 1.2rem;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .stat:hover::after {
+            opacity: 1;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 1.6rem;
+            color: var(--accent);
+            margin-bottom: 0.4rem;
+        }
+
+        .section {
+            padding: clamp(3rem, 6vw, 6rem) clamp(1.5rem, 4vw, 4rem);
+        }
+
+        .section__inner {
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        .section__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .section__title {
+            max-width: 540px;
+        }
+
+        .section__title h2 {
+            font-size: clamp(1.8rem, 3.5vw, 3rem);
+            margin-bottom: 0.75rem;
+        }
+
+        .section__title p {
+            color: var(--text-muted);
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .tag {
+            padding: 0.35rem 0.85rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.06);
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.8rem;
+        }
+
+        .grid--showcase {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .card {
+            padding: 2rem;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: linear-gradient(160deg, rgba(13, 16, 61, 0.95), rgba(5, 9, 35, 0.75));
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 20% 20%, rgba(0, 246, 255, 0.35), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 25px 60px rgba(0, 246, 255, 0.25);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card h3 {
+            margin-bottom: 0.75rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+        }
+
+        .card footer {
+            margin-top: 2.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--highlight);
+        }
+
+        .orbital-map {
+            position: relative;
+            min-height: 360px;
+            border-radius: 36px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, rgba(3, 5, 38, 0.95), rgba(9, 9, 121, 0.65));
+            box-shadow: var(--shadow);
+        }
+
+        .orbital-map canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 12px 30px rgba(0, 246, 255, 0.35));
+        }
+
+        .orbital-map__legend {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            display: grid;
+            gap: 1rem;
+            font-family: "IBM Plex Mono", monospace;
+        }
+
+        .orbital-map__legend span {
+            display: inline-flex;
+            gap: 0.6rem;
+            align-items: center;
+            letter-spacing: 0.12em;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .orbital-map__legend span::before {
+            content: "";
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--highlight);
+            box-shadow: 0 0 15px rgba(0, 246, 255, 0.75);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: clamp(1rem, 4vw, 3rem);
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: clamp(0.4rem, 1.5vw, 1.2rem);
+            width: 2px;
+            background: linear-gradient(to bottom, rgba(0, 246, 255, 0.8), rgba(248, 255, 174, 0.2));
+        }
+
+        .timeline__event {
+            position: relative;
+            padding: 1.5rem;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            margin-bottom: 1.8rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .timeline__event:hover {
+            transform: translateX(8px);
+        }
+
+        .timeline__event::before {
+            content: attr(data-year);
+            position: absolute;
+            left: calc(-1 * clamp(1.7rem, 3vw, 2.6rem));
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--dark);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 50%;
+            width: clamp(3rem, 6vw, 4.2rem);
+            height: clamp(3rem, 6vw, 4.2rem);
+            display: grid;
+            place-items: center;
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+        }
+
+        .experience {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .experience__tile {
+            background: linear-gradient(150deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0));
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .experience__tile:hover {
+            transform: translateY(-5px);
+        }
+
+        .experience__tile::after {
+            content: attr(data-label);
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .experience__points {
+            margin-top: 1.5rem;
+            display: grid;
+            gap: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .experience__points li {
+            list-style: none;
+            padding-left: 1.8rem;
+            position: relative;
+        }
+
+        .experience__points li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.55rem;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 18px rgba(248, 255, 174, 0.85);
+        }
+
+        .matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            border-radius: 30px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(5, 9, 35, 0.7);
+        }
+
+        .matrix__cell {
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+        }
+
+        .matrix__cell h4 {
+            margin-top: 0;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery__item {
+            aspect-ratio: 4 / 3;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            overflow: hidden;
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .gallery__item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            mix-blend-mode: lighten;
+            filter: saturate(1.5) brightness(0.9) contrast(1.1);
+            transition: transform 0.6s ease;
+        }
+
+        .gallery__item:hover img {
+            transform: scale(1.08) rotate(-1deg);
+        }
+
+        .gallery__caption {
+            position: absolute;
+            inset: auto 1rem 1rem 1rem;
+            padding: 1rem;
+            border-radius: 16px;
+            background: rgba(5, 9, 35, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            font-size: 0.75rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .cta {
+            margin-top: 3.5rem;
+            display: grid;
+            gap: 1.5rem;
+            align-items: center;
+            justify-items: center;
+            text-align: center;
+            padding: clamp(3rem, 6vw, 4rem);
+            border-radius: 36px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: linear-gradient(160deg, rgba(9, 9, 121, 0.8), rgba(2, 0, 36, 0.7));
+            box-shadow: var(--shadow);
+        }
+
+        .cta h2 {
+            margin: 0;
+            font-size: clamp(2rem, 4vw, 3rem);
+        }
+
+        .cta p {
+            color: var(--text-muted);
+            max-width: 560px;
+        }
+
+        footer {
+            padding: 3rem 1.5rem 4rem;
+            background: rgba(5, 9, 35, 0.85);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .footer__inner {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: grid;
+            gap: 2rem;
+        }
+
+        .footer__top {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer__top h4 {
+            margin-bottom: 1rem;
+        }
+
+        .footer__top ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .footer__top a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer__top a:hover {
+            color: var(--accent);
+        }
+
+        .footer__bottom {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 1.5rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            padding: 0.65rem 1.2rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            background: rgba(255, 255, 255, 0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .theme-toggle__label {
+            white-space: nowrap;
+        }
+
+        .constellation {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .constellation.hidden {
+            opacity: 0 !important;
+        }
+
+        .constellation span {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: twinkle 6s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.4); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.6; }
+            50% { transform: rotate(12deg) scale(1.1); opacity: 0.85; }
+        }
+
+        @keyframes orbit {
+            from { transform: rotate(0deg) translateX(0); }
+            to { transform: rotate(360deg) translateX(0); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+                scroll-behavior: auto !important;
+            }
+
+            .constellation,
+            .constellation span {
+                animation: none !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav__links {
+                display: none;
+            }
+
+            .section__header {
+                flex-direction: column;
+            }
+
+            .timeline::before {
+                left: 0.6rem;
+            }
+
+            .timeline__event::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a class="nav__brand" href="#top">
+            <span>AO</span>
+            <strong>Aurora Odyssey</strong>
+        </a>
+        <div class="nav__links">
+            <a href="#mission">Mission</a>
+            <a href="#atlas">Atlas</a>
+            <a href="#experience">Experience</a>
+            <a href="#lounge">Lounge</a>
+        </div>
+        <div class="nav__actions">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Hide constellations" aria-pressed="true">
+                <span class="theme-toggle__label">Hide constellations</span>
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2l1.902 5.854h6.154l-4.98 3.62L16.98 17.6 12 13.98 7.02 17.6l1.904-6.126-4.98-3.62h6.154z" />
+                </svg>
+            </button>
+            <a class="btn btn--primary" href="#explore">Launch</a>
+        </div>
+    </nav>
+
+    <header class="hero" id="top">
+        <div class="hero__headline">
+            <h1>Embark on the Aurora Odyssey</h1>
+            <p>
+                Traverse ethereal nebulae, decode stellar symphonies, and design futures that shimmer beyond the horizon.
+                Aurora Odyssey is an immersive expedition into speculative worlds, powered by luminous data streams and
+                experiential narratives crafted for the bold.
+            </p>
+            <div class="hero__stats">
+                <div class="stat">
+                    <strong>38</strong>
+                    <span>Interstellar habitats prototyped with adaptive biomes.</span>
+                </div>
+                <div class="stat">
+                    <strong>12K+</strong>
+                    <span>Explorers charted new mythologies through collaborative missions.</span>
+                </div>
+                <div class="stat">
+                    <strong>7.8s</strong>
+                    <span>Average warp-response time between narrative pulses.</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero__insight">
+            <div class="constellation" id="constellation">
+                <span style="top:8%;left:12%;animation-delay:0.6s"></span>
+                <span style="top:24%;left:68%;animation-delay:1.4s"></span>
+                <span style="top:44%;left:32%;animation-delay:0.2s"></span>
+                <span style="top:60%;left:82%;animation-delay:2.1s"></span>
+                <span style="top:76%;left:18%;animation-delay:1.9s"></span>
+                <span style="top:88%;left:58%;animation-delay:0.9s"></span>
+            </div>
+            <h2>Holographic mission briefing</h2>
+            <p>
+                Each odyssey unfolds through sensory cartography, synesthetic archives, and responsive environments that
+                evolve with every decision you make. Our AI conductors weave luminous signals into bespoke storyworlds.
+            </p>
+            <div class="hero__stats">
+                <div class="stat">
+                    <strong>05</strong>
+                    <span>Galactic synth suites translating solar winds into sound.</span>
+                </div>
+                <div class="stat">
+                    <strong>∞</strong>
+                    <span>Possible narrative continuums across the Aurora lattice.</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="section" id="mission">
+        <div class="section__inner">
+            <div class="section__header">
+                <div class="section__title">
+                    <h2>Mission strata</h2>
+                    <p>
+                        Aurora Odyssey orchestrates cross-sensory journeys across deep cosmic canvases. Our mission strata
+                        interlace spatial computing, mythic storytelling, and responsive ecosystems into one infinite loop.
+                    </p>
+                </div>
+                <div class="tags">
+                    <span class="tag">Immersion</span>
+                    <span class="tag">Speculative Futures</span>
+                    <span class="tag">Sonic Cartography</span>
+                    <span class="tag">Neuro-responsive</span>
+                </div>
+            </div>
+            <div class="grid grid--showcase">
+                <article class="card">
+                    <h3>Choreographed Nebulae</h3>
+                    <p>
+                        Drones stitch radiant auroras into living murals that respond to your heartbeat. Each gesture ripples
+                        across luminous dust, composing a bespoke atmospheric ballet.
+                    </p>
+                    <footer>
+                        <span>Polaris Sector</span>
+                        <span>Live waveform</span>
+                    </footer>
+                </article>
+                <article class="card">
+                    <h3>Mythic Archives</h3>
+                    <p>
+                        Explore vaults of resurrected legends reimagined by neural historians. They sync with your dreams,
+                        expanding their lore each time you revisit.
+                    </p>
+                    <footer>
+                        <span>Mnemonic Deck</span>
+                        <span>Adaptive lore</span>
+                    </footer>
+                </article>
+                <article class="card">
+                    <h3>Celestial Foraging</h3>
+                    <p>
+                        Navigate edible constellations cultivated in zero-gravity gardens. Chefs collaborate with botanists to
+                        engineer flavors that echo cosmic radiation signatures.
+                    </p>
+                    <footer>
+                        <span>Garden Halo</span>
+                        <span>Flora spectra</span>
+                    </footer>
+                </article>
+                <article class="card">
+                    <h3>Temporal Forums</h3>
+                    <p>
+                        Debate with avatars from future civilizations. Their timelines braid with ours, revealing multiverse
+                        tactics for thriving beyond the known horizon.
+                    </p>
+                    <footer>
+                        <span>Chrono Nexus</span>
+                        <span>Time dilation</span>
+                    </footer>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="atlas">
+        <div class="section__inner">
+            <div class="section__header">
+                <div class="section__title">
+                    <h2>Stellar atlas</h2>
+                    <p>
+                        Glide across the Aurora lattice to map expedition pathways, calibrate your sensory deck, and decode
+                        frequencies that guide you to new revelations.
+                    </p>
+                </div>
+                <div class="tags">
+                    <span class="tag">Wayfinding</span>
+                    <span class="tag">Biofeedback</span>
+                    <span class="tag">Luminal Physics</span>
+                </div>
+            </div>
+            <div class="orbital-map">
+                <canvas id="atlas-canvas" role="img" aria-label="Animated orbital map depicting the Aurora Odyssey star chart"></canvas>
+                <div class="orbital-map__legend">
+                    <span>Navigation pulses</span>
+                    <span>Portal alignments</span>
+                    <span>Temporal echoes</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="experience">
+        <div class="section__inner">
+            <div class="section__header">
+                <div class="section__title">
+                    <h2>Experience deck</h2>
+                    <p>
+                        Curate your own odyssey. Blend environments, select narrative tempos, and attach emotional modules to
+                        craft a multi-dimensional expedition unlike any other.
+                    </p>
+                </div>
+                <div class="tags">
+                    <span class="tag">Modular</span>
+                    <span class="tag">Adaptive</span>
+                    <span class="tag">Synesthetic</span>
+                </div>
+            </div>
+
+            <div class="experience">
+                <article class="experience__tile" data-label="SENSORY">
+                    <h3>Luminal Resonance Pods</h3>
+                    <p>
+                        Recline inside resonance pods tuned to your circadian rhythm. Every inhale spawns prismatic waves while
+                        curated scent-scapes keep your senses buoyant.
+                    </p>
+                    <ul class="experience__points">
+                        <li>Biometric calibrations in 180 seconds.</li>
+                        <li>Adaptive temperature gradients for cosmic acclimation.</li>
+                        <li>Audio pulses synchronized to solar wind telemetry.</li>
+                    </ul>
+                </article>
+                <article class="experience__tile" data-label="TACTICAL">
+                    <h3>Storyweaver Console</h3>
+                    <p>
+                        Compose responsive narratives using modular glyphs. Collaborate with AI scribes to co-create outcomes
+                        across divergent timelines.
+                    </p>
+                    <ul class="experience__points">
+                        <li>Glyph-based editor with real-time prediction.</li>
+                        <li>Scenario branching visualized as auroral threads.</li>
+                        <li>Direct uplink to expedition companions.</li>
+                    </ul>
+                </article>
+                <article class="experience__tile" data-label="EXPLORATION">
+                    <h3>Gravity Sketch Corridors</h3>
+                    <p>
+                        Freeform craft habitats within weightless galleries. Every structural shift generates acoustic feedback
+                        and chromatic cascades to confirm stability.
+                    </p>
+                    <ul class="experience__points">
+                        <li>Intuitive corridor sculpting with gesture capture.</li>
+                        <li>Structural analytics via holographic overlays.</li>
+                        <li>Collaborative co-presence with remote explorers.</li>
+                    </ul>
+                </article>
+            </div>
+
+            <div class="section__header" style="margin-top: 4rem; align-items: center;">
+                <div class="section__title">
+                    <h2>Symphony matrix</h2>
+                    <p>
+                        Our symphony matrix blends cosmic data streams with human intent. Tune each column to orchestrate your
+                        expedition signature.
+                    </p>
+                </div>
+                <div class="tags">
+                    <span class="tag">Harmonics</span>
+                    <span class="tag">Spatial Audio</span>
+                    <span class="tag">Luminous Data</span>
+                </div>
+            </div>
+            <div class="matrix">
+                <div class="matrix__cell">
+                    <h4>Signal</h4>
+                    <p>Quantum whispers from pulsars encoded into tactile bass lines.</p>
+                </div>
+                <div class="matrix__cell">
+                    <h4>Texture</h4>
+                    <p>Feathered synth pads woven with crystalline chimes and low-orbit static.</p>
+                </div>
+                <div class="matrix__cell">
+                    <h4>Rhythm</h4>
+                    <p>Poly-temporal beats derived from gravitational wave oscillations.</p>
+                </div>
+                <div class="matrix__cell">
+                    <h4>Emotion</h4>
+                    <p>Calibrated to evoke awe, curiosity, and a gentle sense of cosmic belonging.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="lounge">
+        <div class="section__inner">
+            <div class="section__header">
+                <div class="section__title">
+                    <h2>Explorer lounge</h2>
+                    <p>
+                        Share discoveries, trade resonance samples, and collaborate on interstellar designs. Our lounge is an ever
+                        shifting agora where explorers leave artifacts for others to decode.
+                    </p>
+                </div>
+                <div class="tags">
+                    <span class="tag">Community</span>
+                    <span class="tag">Artifacts</span>
+                    <span class="tag">Creative Exchange</span>
+                </div>
+            </div>
+            <div class="gallery">
+                <figure class="gallery__item">
+                    <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80" alt="Explorer in a glowing nebula" />
+                    <figcaption class="gallery__caption">Nebula promenade</figcaption>
+                </figure>
+                <figure class="gallery__item">
+                    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80" alt="Futuristic control room" />
+                    <figcaption class="gallery__caption">Storyweaver console</figcaption>
+                </figure>
+                <figure class="gallery__item">
+                    <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=1200&q=80" alt="Group of explorers in luminous room" />
+                    <figcaption class="gallery__caption">Synced resonance</figcaption>
+                </figure>
+                <figure class="gallery__item">
+                    <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=80" alt="Glowing data orb" />
+                    <figcaption class="gallery__caption">Data chrysalis</figcaption>
+                </figure>
+            </div>
+
+            <div class="cta" id="explore">
+                <h2>Chart your course</h2>
+                <p>
+                    Ready to pioneer luminous futures? Enlist with Aurora Odyssey and receive a bespoke itinerary tuned to your
+                    creative orbit, emotional resonance, and cosmic appetite.
+                </p>
+                <a class="btn btn--primary" href="mailto:missions@auroraodyssey.io">Initiate briefing</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer__inner">
+            <div class="footer__top">
+                <div>
+                    <h4>Aurora Odyssey</h4>
+                    <p>
+                        Designing futures where art, science, and speculative storytelling merge into immersive constellations.
+                    </p>
+                </div>
+                <div>
+                    <h4>Expeditions</h4>
+                    <ul>
+                        <li><a href="#mission">Mission strata</a></li>
+                        <li><a href="#atlas">Stellar atlas</a></li>
+                        <li><a href="#experience">Experience deck</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#lounge">Explorer lounge</a></li>
+                        <li><a href="#explore">Launch briefing</a></li>
+                        <li><a href="mailto:press@auroraodyssey.io">Press constellation</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Coordinates</h4>
+                    <p>
+                        Lunar Outpost 8, Mare Serenitatis<br />
+                        Signal band: 917.42<br />
+                        Frequency key: 0xA0DYS5EY
+                    </p>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <span>© <span id="year"></span> Aurora Odyssey. All cosmic rights reserved.</span>
+                <span>Crafted under starlit protocols.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById("atlas-canvas");
+        const ctx = canvas.getContext("2d");
+        const toggle = document.getElementById("theme-toggle");
+        const constellation = document.getElementById("constellation");
+        const toggleLabel = toggle.querySelector(".theme-toggle__label");
+
+        const CONSTELLATION_STORAGE_KEY = "aurora-odyssey-constellations";
+        const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+        let width;
+        let height;
+        let centerX;
+        let centerY;
+        let pulse = 0;
+        let dpr = window.devicePixelRatio || 1;
+        let animationFrameId;
+        let storageAvailable = false;
+
+        try {
+            const testKey = "__ao_pref__";
+            localStorage.setItem(testKey, testKey);
+            localStorage.removeItem(testKey);
+            storageAvailable = true;
+        } catch (error) {
+            storageAvailable = false;
+        }
+
+        let constellationVisible = true;
+
+        if (storageAvailable) {
+            const savedState = localStorage.getItem(CONSTELLATION_STORAGE_KEY);
+            if (savedState === "hidden") {
+                constellationVisible = false;
+            }
+        }
+
+        function updateConstellationVisibility(visible) {
+            constellationVisible = visible;
+            constellation.classList.toggle("hidden", !visible);
+            constellation.style.opacity = visible ? "1" : "0";
+            toggle.setAttribute("aria-pressed", String(visible));
+            toggle.setAttribute("aria-label", visible ? "Hide constellations" : "Show constellations");
+            toggleLabel.textContent = visible ? "Hide constellations" : "Show constellations";
+        }
+
+        updateConstellationVisibility(constellationVisible);
+
+        toggle.addEventListener("click", () => {
+            const nextState = !constellationVisible;
+            updateConstellationVisibility(nextState);
+            if (storageAvailable) {
+                localStorage.setItem(CONSTELLATION_STORAGE_KEY, nextState ? "visible" : "hidden");
+            }
+        });
+
+        function resizeCanvas() {
+            width = canvas.clientWidth;
+            height = canvas.clientHeight;
+            dpr = window.devicePixelRatio || 1;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.scale(dpr, dpr);
+            centerX = width / 2;
+            centerY = height / 2;
+            pulse = 0;
+            startAtlasAnimation();
+        }
+
+        const nodes = Array.from({ length: 18 }, (_, i) => ({
+            angle: (i / 18) * Math.PI * 2,
+            radius: 80 + Math.random() * 120,
+            offset: Math.random() * Math.PI * 2
+        }));
+
+        function renderAtlas(currentPulse) {
+            if (!width || !height) {
+                return;
+            }
+
+            ctx.clearRect(0, 0, width, height);
+
+            const gradient = ctx.createRadialGradient(centerX, centerY, 20, centerX, centerY, width * 0.8);
+            gradient.addColorStop(0, "rgba(0, 246, 255, 0.25)");
+            gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, width * 0.45, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = "rgba(248, 255, 174, 0.6)";
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 8]);
+            ctx.beginPath();
+            for (let r = 60; r < Math.min(width, height) / 1.6; r += 50) {
+                ctx.moveTo(centerX + r, centerY);
+                ctx.arc(centerX, centerY, r, 0, Math.PI * 2);
+            }
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            nodes.forEach((node, index) => {
+                const dynamicRadius = node.radius + Math.sin(currentPulse / 30 + node.offset) * 12;
+                const x = centerX + Math.cos(node.angle + currentPulse / 100) * dynamicRadius;
+                const y = centerY + Math.sin(node.angle + currentPulse / 100) * dynamicRadius;
+
+                ctx.fillStyle = index % 3 === 0 ? "#f8ffae" : "#00f6ff";
+                ctx.shadowBlur = 18;
+                ctx.shadowColor = ctx.fillStyle;
+                ctx.beginPath();
+                ctx.arc(x, y, 4, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.shadowBlur = 0;
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
+                ctx.lineWidth = 0.6;
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(x, y);
+                ctx.stroke();
+            });
+        }
+
+        function startAtlasAnimation() {
+            cancelAnimationFrame(animationFrameId);
+
+            if (motionQuery.matches) {
+                renderAtlas(0);
+                return;
+            }
+
+            const animate = () => {
+                renderAtlas(pulse);
+                pulse += 1.2;
+                animationFrameId = requestAnimationFrame(animate);
+            };
+
+            animationFrameId = requestAnimationFrame(animate);
+        }
+
+        function handleMotionPreferenceChange() {
+            pulse = 0;
+            startAtlasAnimation();
+        }
+
+        if (typeof motionQuery.addEventListener === "function") {
+            motionQuery.addEventListener("change", handleMotionPreferenceChange);
+        } else if (typeof motionQuery.addListener === "function") {
+            motionQuery.addListener(handleMotionPreferenceChange);
+        }
+
+        function setYear() {
+            document.getElementById("year").textContent = new Date().getFullYear();
+        }
+
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+        setYear();
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
