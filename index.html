@@ -1207,3 +1207,906 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اليوم ur     MUM                         السعودي 95</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e7e34, #ffffff, #1e7e34);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease-in-out infinite;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+        }
+
+        .ksa-flag {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 160px;
+            height: 100px;
+            background: #1e7e34;
+            border-radius: 10px;
+            animation: wave 3s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ksa-flag::before {
+            content: 'لا إله إلا الله محمد رسول الله';
+            font-size: 10px;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .ksa-flag::after {
+            content: '⚔️';
+            font-size: 20px;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateX(-50%) rotate(0deg); }
+            25% { transform: translateX(-50%) rotate(3deg); }
+            75% { transform: translateX(-50%) rotate(-3deg); }
+        }
+
+        h1 {
+            font-size: 3.5em;
+            color: #1e7e34;
+            margin-top: 120px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { text-shadow: 2px 2px 4px rgba(30, 126, 52, 0.3); }
+            to { text-shadow: 2px 2px 20px rgba(30, 126, 52, 0.8); }
+        }
+
+        .subtitle {
+            font-size: 1.8em;
+            color: #666;
+            margin: 20px 0;
+            font-weight: 300;
+        }
+
+        .lang-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: #1e7e34;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(30, 126, 52, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .lang-toggle:hover {
+            background: #155724;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 126, 52, 0.6);
+        }
+
+
+
+        .national-day-info {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .national-day-info h2 {
+            color: #1e7e34;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+        }
+
+        .national-day-info p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .countdown-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 40px 0;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            background: linear-gradient(135deg, #1e7e34, #155724);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            min-width: 80px;
+            box-shadow: 0 8px 25px rgba(30, 126, 52, 0.3);
+            transform: perspective(1000px) rotateY(0deg);
+            transition: all 0.3s ease;
+        }
+
+        .countdown-item:hover {
+            transform: perspective(1000px) rotateY(10deg) translateY(-5px);
+        }
+
+        .countdown-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .celebration-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            flex-direction: column;
+        }
+
+        .celebration-content {
+            text-align: center;
+            color: white;
+            animation: celebrationPulse 2s ease-in-out infinite;
+        }
+
+        .celebration-content h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+
+        .celebration-content p {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+        }
+
+        @keyframes celebrationPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            z-index: 10001;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #1e7e34, #28a745);
+            transition: left 0.5s ease;
+        }
+
+        .card:hover::before {
+            left: 0;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
+            color: #1e7e34;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .card p, .card li {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .official-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .link-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #1e7e34, #28a745);
+            color: white;
+            padding: 15px 25px;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .link-button:hover::before {
+            left: 100%;
+        }
+
+        .link-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(30, 126, 52, 0.4);
+        }
+
+        .music-player {
+            background: #1e7e34;
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+        }
+
+        .song-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            margin: 10px 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .song-item:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(5px);
+        }
+
+        .play-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #28a745;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            background: #34ce57;
+            transform: scale(1.1);
+        }
+
+        .vision-2030 {
+            background: linear-gradient(135deg, #1e7e34, #0d5d1f);
+            color: white;
+            text-align: center;
+            padding: 50px 30px;
+            border-radius: 25px;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vision-2030::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-conic-gradient(from 0deg, transparent, transparent 30deg, rgba(255,255,255,0.05) 30deg, rgba(255,255,255,0.05) 60deg);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+
+        .vision-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .firework {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            animation: firework 2s ease-out infinite;
+        }
+
+        @keyframes firework {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            background: rgba(30, 126, 52, 0.1);
+            border-radius: 20px;
+            margin-top: 40px;
+        }
+
+        .made-by {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(30, 126, 52, 0.2);
+            font-size: 1.1em;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .made-by .heart {
+            color: #28a745;
+            font-size: 1.2em;
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        [dir="ltr"] {
+            text-align: left;
+        }
+
+        [dir="rtl"] {
+            text-align: right;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+            
+            .countdown {
+                gap: 10px;
+            }
+            
+            .countdown-item {
+                min-width: 60px;
+                padding: 15px;
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .celebration-content h1 {
+                font-size: 2.5em;
+            }
+
+
+        }
+    </style>
+</head>
+<body>
+    <button class="lang-toggle" onclick="toggleLanguage()">English</button>
+    
+    <div class="fireworks" id="fireworks"></div>
+
+    <div class="celebration-overlay" id="celebrationOverlay">
+        <div class="celebration-content">
+            <h1 id="celebration-title">🎉 كل عام والمملكة بخير! 🎉</h1>
+            <p id="celebration-message">مبارك علينا اليوم الوطني السعودي الـ 95</p>
+            <button class="link-button" onclick="closeCelebration()" id="close-celebration">أغلق الاحتفال</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="ksa-flag"></div>
+            <h1 id="main-title">اليوم الوطني السعودي 95</h1>
+            <p class="subtitle" id="subtitle">نحتفل بوطننا الحبيب</p>
+        </div>
+
+        <div class="national-day-info">
+            <h2 id="info-title">عن اليوم الوطني السعودي</h2>
+            <p id="info-text-1">يحتفل الشعب السعودي باليوم الوطني في 23 سبتمبر من كل عام، إحياءً لذكرى توحيد المملكة العربية السعودية على يد الملك المؤسس عبد العزيز بن عبد الرحمن آل سعود عام 1932م.</p>
+            <p id="info-text-2">هذا اليوم يمثل رمزاً للوحدة والفخر الوطني، حيث تتزين المدن والقرى بالأعلام الخضراء وتقام الفعاليات الثقافية والترفيهية في جميع أنحاء المملكة.</p>
+            <p id="info-text-3">في عام 2025، نحتفل بالذكرى الـ 95 لتأسيس المملكة، مستذكرين الإنجازات العظيمة التي حققتها بلادنا ونتطلع إلى مستقبل مشرق في ظل رؤية المملكة 2030.</p>
+        </div>
+
+        <div class="countdown-container">
+            <h2 id="countdown-title">العد التنازلي لليوم الوطني</h2>
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <span class="countdown-number" id="days">0</span>
+                    <span class="countdown-label" id="days-label">أيام</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="hours">0</span>
+                    <span class="countdown-label" id="hours-label">ساعات</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="minutes">0</span>
+                    <span class="countdown-label" id="minutes-label">دقائق</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="seconds">0</span>
+                    <span class="countdown-label" id="seconds-label">ثواني</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="card">
+                <h3 id="official-title">الروابط الرسمية</h3>
+                <div class="official-links">
+                    <a href="https://www.spa.gov.sa" class="link-button" target="_blank" id="spa-link">وكالة الأنباء السعودية</a>
+                    <a href="https://www.my.gov.sa" class="link-button" target="_blank" id="gov-link">منصة مايز الحكومية</a>
+                    <a href="https://www.moc.gov.sa" class="link-button" target="_blank" id="culture-link">وزارة الثقافة</a>
+                    <a href="https://www.gea.gov.sa" class="link-button" target="_blank" id="entertainment-link">هيئة الترفيه</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 id="music-title">أناشيد وطنية</h3>
+                <div class="music-player">
+                    <div class="song-item" onclick="playMusic('سلام-للملك')">
+                        <button class="play-button">▶</button>
+                        <span id="song1">سلام للملك</span>
+                    </div>
+                    <div class="song-item" onclick="playMusic('موطني-الحبيب')">
+                        <button class="play-button">▶</button>
+                        <span id="song2">موطني الحبيب</span>
+                    </div>
+                    <div class="song-item" onclick="playMusic('فوق-هام-السحب')">
+                        <button class="play-button">▶</button>
+                        <span id="song3">فوق هام السحب</span>
+                    </div>
+                    <div class="song-item" onclick="playMusic('نشيد-اليوم-الوطني-95')">
+                        <button class="play-button">▶</button>
+                        <span id="song4">نشيد اليوم الوطني 95</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 id="achievements-title">إنجازات المملكة</h3>
+                <ul id="achievements-list">
+                    <li>رؤية السعودية 2030</li>
+                    <li>نيوم - مدينة المستقبل</li>
+                    <li>القدية - عاصمة الترفيه</li>
+                    <li>البحر الأحمر - وجهة سياحية عالمية</li>
+                    <li>مشروع الرياض الخضراء</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3 id="heritage-title">التراث السعودي</h3>
+                <p id="heritage-text">تتميز المملكة العربية السعودية بتراث عريق وثقافة أصيلة تمتد لآلاف السنين، من العمارة النجدية التقليدية إلى الحرف اليدوية والشعر النبطي والقهوة العربية.</p>
+            </div>
+
+            <div class="card">
+                <h3 id="significance-title">أهمية اليوم الوطني</h3>
+                <p id="significance-text">اليوم الوطني السعودي ليس مجرد ذكرى تاريخية، بل هو يوم لتعزيز الهوية الوطنية والانتماء للوطن. يحتفل المواطنون والمقيمون بهذا اليوم من خلال رفع الأعلام وإقامة الفعاليات الشعبية والثقافية، مما يعكس روح الوحدة والفخر بالإنجازات الوطنية.</p>
+            </div>
+
+            <div class="card">
+                <h3 id="celebration-ways-title">طرق الاحتفال</h3>
+                <ul id="celebration-ways-list">
+                    <li>إقامة العروض الجوية والاستعراضات العسكرية</li>
+                    <li>تنظيم الفعاليات الثقافية والتراثية</li>
+                    <li>إضاءة المعالم الأثرية والحديثة باللون الأخضر</li>
+                    <li>إقامة الحفلات الموسيقية والعروض الفولكلورية</li>
+                    <li>المشاركة في الفعاليات المجتمعية والخيرية</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="vision-2030">
+            <div class="vision-content">
+                <h2 id="vision-title">رؤية السعودية 2030</h2>
+                <p id="vision-text">نحو مستقبل مشرق يقوم على التنمية المستدامة والابتكار والتطوير، لنجعل من المملكة نموذجاً رائداً في العالم</p>
+                <a href="https://www.vision2030.gov.sa" class="link-button" target="_blank" id="vision-link">اكتشف الرؤية</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p id="footer-text">كل عام والمملكة العربية السعودية بخير وازدهار</p>
+            <p id="footer-year">1446 هـ - 2025 م</p>
+            <div class="made-by">Made with <span class="heart">💚</span> by: Alien/Hassan</div>
+        </div>
+    </div>
+
+    <script>
+        let isArabic = true;
+        
+        const translations = {
+            ar: {
+                mainTitle: 'اليوم الوطني السعودي 95',
+                subtitle: 'نحتفل بوطننا الحبيب',
+                infoTitle: 'عن اليوم الوطني السعودي',
+                infoText1: 'يحتفل الشعب السعودي باليوم الوطني في 23 سبتمبر من كل عام، إحياءً لذكرى توحيد المملكة العربية السعودية على يد الملك المؤسس عبد العزيز بن عبد الرحمن آل سعود عام 1932م.',
+                infoText2: 'هذا اليوم يمثل رمزاً للوحدة والفخر الوطني، حيث تتزين المدن والقرى بالأعلام الخضراء وتقام الفعاليات الثقافية والترفيهية في جميع أنحاء المملكة.',
+                infoText3: 'في عام 2025، نحتفل بالذكرى الـ 95 لتأسيس المملكة، مستذكرين الإنجازات العظيمة التي حققتها بلادنا ونتطلع إلى مستقبل مشرق في ظل رؤية المملكة 2030.',
+                countdownTitle: 'العد التنازلي لليوم الوطني',
+                daysLabel: 'أيام',
+                hoursLabel: 'ساعات',
+                minutesLabel: 'دقائق',
+                secondsLabel: 'ثواني',
+                officialTitle: 'الروابط الرسمية',
+                spaLink: 'وكالة الأنباء السعودية',
+                govLink: 'منصة مايز الحكومية',
+                cultureLink: 'وزارة الثقافة',
+                entertainmentLink: 'هيئة الترفيه',
+                musicTitle: 'أناشيد وطنية',
+                song1: 'سلام للملك',
+                song2: 'موطني الحبيب',
+                song3: 'فوق هام السحب',
+                song4: 'نشيد اليوم الوطني 95',
+                achievementsTitle: 'إنجازات المملكة',
+                heritageTitle: 'التراث السعودي',
+                heritageText: 'تتميز المملكة العربية السعودية بتراث عريق وثقافة أصيلة تمتد لآلاف السنين، من العمارة النجدية التقليدية إلى الحرف اليدوية والشعر النبطي والقهوة العربية.',
+                significanceTitle: 'أهمية اليوم الوطني',
+                significanceText: 'اليوم الوطني السعودي ليس مجرد ذكرى تاريخية، بل هو يوم لتعزيز الهوية الوطنية والانتماء للوطن. يحتفل المواطنون والمقيمون بهذا اليوم من خلال رفع الأعلام وإقامة الفعاليات الشعبية والثقافية، مما يعكس روح الوحدة والفخر بالإنجازات الوطنية.',
+                celebrationWaysTitle: 'طرق الاحتفال',
+                visionTitle: 'رؤية السعودية 2030',
+                visionText: 'نحو مستقبل مشرق يقوم على التنمية المستدامة والابتكار والتطوير، لنجعل من المملكة نموذجاً رائداً في العالم',
+                visionLink: 'اكتشف الرؤية',
+                footerText: 'كل عام والمملكة العربية السعودية بخير وازدهار',
+                footerYear: '1446 هـ - 2025 م',
+                celebrationTitle: '🎉 كل عام والمملكة بخير! 🎉',
+                celebrationMessage: 'مبارك علينا اليوم الوطني السعودي الـ 95',
+                closeCelebration: 'أغلق الاحتفال'
+            },
+            en: {
+                mainTitle: 'Saudi National Day 95',
+                subtitle: 'Celebrating Our Beloved Nation',
+                infoTitle: 'About Saudi National Day',
+                infoText1: 'The Saudi people celebrate National Day on September 23rd every year, commemorating the unification of the Kingdom of Saudi Arabia by the founding King Abdulaziz bin Abdulrahman Al Saud in 1932.',
+                infoText2: 'This day represents a symbol of unity and national pride, where cities and villages are decorated with green flags and cultural and entertainment events are held throughout the Kingdom.',
+                infoText3: 'In 2025, we celebrate the 95th anniversary of the Kingdom\'s founding, remembering the great achievements our country has accomplished and looking forward to a bright future under Saudi Vision 2030.',
+                countdownTitle: 'Countdown to National Day',
+                daysLabel: 'Days',
+                hoursLabel: 'Hours',
+                minutesLabel: 'Minutes',
+                secondsLabel: 'Seconds',
+                officialTitle: 'Official Links',
+                spaLink: 'Saudi Press Agency',
+                govLink: 'My.Gov.SA Platform',
+                cultureLink: 'Ministry of Culture',
+                entertainmentLink: 'Entertainment Authority',
+                musicTitle: 'National Songs',
+                song1: 'Salam Lil-Malik',
+                song2: 'My Beloved Homeland',
+                song3: 'Above the Clouds',
+                song4: 'National Day 95 Anthem',
+                achievementsTitle: 'Kingdom Achievements',
+                heritageTitle: 'Saudi Heritage',
+                heritageText: 'The Kingdom of Saudi Arabia is distinguished by its rich heritage and authentic culture spanning thousands of years, from traditional Najdi architecture to handicrafts, Nabati poetry, and Arabic coffee.',
+                significanceTitle: 'Significance of National Day',
+                significanceText: 'Saudi National Day is not just a historical anniversary, but a day to strengthen national identity and belonging to the homeland. Citizens and residents celebrate this day by raising flags and holding popular and cultural events, reflecting the spirit of unity and pride in national achievements.',
+                celebrationWaysTitle: 'Ways of Celebration',
+                visionTitle: 'Saudi Vision 2030',
+                visionText: 'Towards a bright future based on sustainable development, innovation, and progress, making the Kingdom a leading model in the world',
+                visionLink: 'Discover the Vision',
+                footerText: 'May the Kingdom of Saudi Arabia prosper and thrive every year',
+                footerYear: '1446 AH - 2025 AD',
+                celebrationTitle: '🎉 Happy National Day! 🎉',
+                celebrationMessage: 'Congratulations on Saudi National Day 95',
+                closeCelebration: 'Close Celebration'
+            }
+        };
+
+        function toggleLanguage() {
+            isArabic = !isArabic;
+            const lang = isArabic ? 'ar' : 'en';
+            const dir = isArabic ? 'rtl' : 'ltr';
+            
+            document.documentElement.lang = lang;
+            document.documentElement.dir = dir;
+            document.querySelector('.lang-toggle').textContent = isArabic ? 'English' : 'العربية';
+            
+            updateContent();
+        }
+
+        function updateContent() {
+            const lang = isArabic ? 'ar' : 'en';
+            const t = translations[lang];
+            
+            document.getElementById('main-title').textContent = t.mainTitle;
+            document.getElementById('subtitle').textContent = t.subtitle;
+            document.getElementById('info-title').textContent = t.infoTitle;
+            document.getElementById('info-text-1').textContent = t.infoText1;
+            document.getElementById('info-text-2').textContent = t.infoText2;
+            document.getElementById('info-text-3').textContent = t.infoText3;
+            document.getElementById('countdown-title').textContent = t.countdownTitle;
+            document.getElementById('days-label').textContent = t.daysLabel;
+            document.getElementById('hours-label').textContent = t.hoursLabel;
+            document.getElementById('minutes-label').textContent = t.minutesLabel;
+            document.getElementById('seconds-label').textContent = t.secondsLabel;
+            document.getElementById('official-title').textContent = t.officialTitle;
+            document.getElementById('spa-link').textContent = t.spaLink;
+            document.getElementById('gov-link').textContent = t.govLink;
+            document.getElementById('culture-link').textContent = t.cultureLink;
+            document.getElementById('entertainment-link').textContent = t.entertainmentLink;
+            document.getElementById('music-title').textContent = t.musicTitle;
+            document.getElementById('song1').textContent = t.song1;
+            document.getElementById('song2').textContent = t.song2;
+            document.getElementById('song3').textContent = t.song3;
+            document.getElementById('song4').textContent = t.song4;
+            document.getElementById('achievements-title').textContent = t.achievementsTitle;
+            document.getElementById('heritage-title').textContent = t.heritageTitle;
+            document.getElementById('heritage-text').textContent = t.heritageText;
+            document.getElementById('significance-title').textContent = t.significanceTitle;
+            document.getElementById('significance-text').textContent = t.significanceText;
+            document.getElementById('celebration-ways-title').textContent = t.celebrationWaysTitle;
+            document.getElementById('vision-title').textContent = t.visionTitle;
+            document.getElementById('vision-text').textContent = t.visionText;
+            document.getElementById('vision-link').textContent = t.visionLink;
+            document.getElementById('footer-text').textContent = t.footerText;
+            document.getElementById('footer-year').textContent = t.footerYear;
+            document.getElementById('celebration-title').textContent = t.celebrationTitle;
+            document.getElementById('celebration-message').textContent = t.celebrationMessage;
+            document.getElementById('close-celebration').textContent = t.closeCelebration;
+            
+            if (!isArabic) {
+                const achievements = ['Saudi Vision 2030', 'NEOM - City of the Future', 'Qiddiya - Capital of Entertainment', 'Red Sea - Global Tourism Destination', 'Riyadh Green Project'];
+                const list = document.getElementById('achievements-list');
+                list.innerHTML = achievements.map(item => `<li>${item}</li>`).join('');
+                
+                const celebrationWays = ['Air shows and military parades', 'Cultural and heritage events organization', 'Illuminating landmarks in green color', 'Musical concerts and folkloric performances', 'Community and charity events participation'];
+                const celebrationList = document.getElementById('celebration-ways-list');
+                celebrationList.innerHTML = celebrationWays.map(item => `<li>${item}</li>`).join('');
+            } else {
+                const achievements = ['رؤية السعودية 2030', 'نيوم - مدينة المستقبل', 'القدية - عاصمة الترفيه', 'البحر الأحمر - وجهة سياحية عالمية', 'مشروع الرياض الخضراء'];
+                const list = document.getElementById('achievements-list');
+                list.innerHTML = achievements.map(item => `<li>${item}</li>`).join('');
+                
+                const celebrationWays = ['إقامة العروض الجوية والاستعراضات العسكرية', 'تنظيم الفعاليات الثقافية والتراثية', 'إضاءة المعالم الأثرية والحديثة باللون الأخضر', 'إقامة الحفلات الموسيقية والعروض الفولكلورية', 'المشاركة في الفعاليات المجتمعية والخيرية'];
+                const celebrationList = document.getElementById('celebration-ways-list');
+                celebrationList.innerHTML = celebrationWays.map(item => `<li>${item}</li>`).join('');
+            }
+        }
+
+        function updateCountdown() {
+            const nationalDay = new Date('2025-09-23T00:00:00+03:00');
+            const now = new Date();
+            const difference = nationalDay - now;
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = days;
+                document.getElementById('hours').textContent = hours;
+                document.getElementById('minutes').textContent = minutes;
+                document.getElementById('seconds').textContent = seconds;
+            } else {
+                triggerCelebration();
+                document.getElementById('countdown-title').textContent = isArabic ? 'كل عام وأنتم بخير!' : 'Happy National Day!';
+                document.getElementById('countdown').innerHTML = '<h2 style="color: #1e7e34; font-size: 3em;">🎉🇸🇦🎉</h2>';
+            }
+        }
+
+        function createFirework() {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            firework.style.left = Math.random() * window.innerWidth + 'px';
+            firework.style.top = Math.random() * window.innerHeight + 'px';
+            firework.style.backgroundColor = ['#1e7e34', '#28a745', '#ffffff', '#ffd700'][Math.floor(Math.random() * 4)];
+            firework.style.setProperty('--x', (Math.random() - 0.5) * 200 + 'px');
+            firework.style.setProperty('--y', (Math.random() - 0.5) * 200 + 'px');
+            
+            document.getElementById('fireworks').appendChild(firework);
+            
+            setTimeout(() => {
+                firework.remove();
+            }, 2000);
+        }
+
+        function createConfetti() {
+            const colors = ['#1e7e34', '#28a745', '#ffd700', '#ffffff', '#ffed4a'];
+            const confettiContainer = document.body;
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.animation = `confettiFall ${Math.random() * 3 + 2}s linear infinite`;
+                
+                confettiContainer.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        }
+
+        function triggerCelebration() {
+            const overlay = document.getElementById('celebrationOverlay');
+            overlay.style.display = 'flex';
+            
+            createConfetti();
+            
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    createFirework();
+                }, i * 300);
+            }
+            
+            setInterval(() => {
+                createConfetti();
+            }, 2000);
+        }
+
+        function closeCelebration() {
+            const overlay = document.getElementById('celebrationOverlay');
+            overlay.style.display = 'none';
+        }
+
+        function playMusic(songName) {
+            const youtubeUrls = {
+                'سلام-للملك': 'https://www.youtube.com/results?search_query=سلام+للملك+النشيد+الوطني+السعودي',
+                'موطني-الحبيب': 'https://www.youtube.com/results?search_query=موطني+الحبيب+نشيد+وطني+سعودي',
+                'فوق-هام-السحب': 'https://www.youtube.com/results?search_query=فوق+هام+السحب+نشيد+وطني+سعودي',
+                'نشيد-اليوم-الوطني-95': 'https://www.youtube.com/results?search_query=نشيد+اليوم+الوطني+السعودي+95'
+            };
+            
+            window.open(youtubeUrls[songName] || 'https://www.youtube.com/results?search_query=أناشيد+وطنية+سعودية', '_blank');
+        }
+
+        setInterval(updateCountdown, 1000);
+        setInterval(createFirework, 2000);
+        
+        updateCountdown();
+        updateContent();
+
+        document.addEventListener('click', function(e) {
+            if (Math.random() > 0.7) {
+                createFirework();
+            }
+        });
+
+        window.addEventListener('scroll', function() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                const rect = card.getBoundingClientRect();
+                const inView = rect.top < window.innerHeight && rect.bottom > 0;
+                if (inView) {
+                    card.style.animationDelay = index * 0.1 + 's';
+                    card.style.animation = 'none';
+                    setTimeout(() => {
+                        card.style.animation = 'slideInUp 0.6s ease forwards';
+                    }, 10);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
