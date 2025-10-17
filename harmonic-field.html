@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aurora Odyssey • Harmonic Field</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: radial-gradient(circle at 15% 20%, rgba(110, 245, 255, 0.4), transparent 55%),
+                   radial-gradient(circle at 75% 30%, rgba(151, 102, 255, 0.3), transparent 60%),
+                   linear-gradient(180deg, #010409 0%, #040c24 45%, #010409 100%);
+            --panel: rgba(8, 12, 28, 0.8);
+            --border: rgba(255, 255, 255, 0.12);
+            --text: rgba(255, 255, 255, 0.92);
+            --muted: rgba(255, 255, 255, 0.68);
+            --accent: #6ef5ff;
+            --accent-strong: #ffe483;
+            --shadow: 0 25px 60px rgba(5, 10, 30, 0.35);
+            --mono: "IBM Plex Mono", monospace;
+            --sans: "Space Grotesk", system-ui, sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: var(--sans);
+            color: var(--text);
+            background: var(--bg);
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+        }
+
+        header,
+        footer { padding: 2rem clamp(1.5rem, 4vw, 3.5rem); }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        header a {
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            font-size: 0.75rem;
+            color: var(--text);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        header svg { width: 1.1rem; height: 1.1rem; }
+
+        main {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: clamp(2rem, 5vw, 3.5rem);
+            padding: 0 clamp(1.5rem, 4vw, 3.5rem) clamp(2.5rem, 6vw, 4rem);
+        }
+
+        .field {
+            position: relative;
+            border-radius: 32px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: rgba(3, 6, 18, 0.8);
+            box-shadow: var(--shadow);
+            min-height: min(70vh, 620px);
+        }
+
+        canvas { width: 100%; height: 100%; display: block; }
+
+        .panel {
+            border-radius: 28px;
+            padding: clamp(1.5rem, 4vw, 2.5rem);
+            background: var(--panel);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(18px);
+            box-shadow: var(--shadow);
+            display: grid;
+            gap: 1.6rem;
+            align-content: start;
+        }
+
+        h1 { margin: 0; text-transform: uppercase; letter-spacing: 0.18em; font-size: clamp(1.8rem, 3.2vw, 2.6rem); }
+
+        p { margin: 0; color: var(--muted); line-height: 1.8; }
+
+        .control-grid { display: grid; gap: 1.2rem; }
+
+        label { display: grid; gap: 0.45rem; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; }
+
+        input[type="range"],
+        input[type="number"],
+        input[type="text"],
+        select {
+            width: 100%;
+            accent-color: var(--accent);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(3, 8, 18, 0.65);
+            padding: 0.75rem 1rem;
+            color: var(--text);
+            font-family: var(--sans);
+        }
+
+        .button-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+        button {
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 0.65rem 1.4rem;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        button:hover,
+        button:focus-visible {
+            border-color: var(--accent-strong);
+            transform: translateY(-2px);
+        }
+
+        .readout { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.14em; color: var(--accent-strong); }
+
+        .metrics {
+            display: grid;
+            gap: 0.8rem;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        }
+
+        .metric {
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.06);
+            padding: 0.8rem 1rem;
+            display: grid;
+            gap: 0.3rem;
+        }
+
+        .metric strong { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.16em; color: var(--muted); text-transform: uppercase; }
+
+        .metric span { font-size: 1.05rem; letter-spacing: 0.05em; }
+
+        .preset-panel {
+            border-radius: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.1rem 1.3rem;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .preset-list { max-height: 180px; overflow: auto; display: grid; gap: 0.65rem; }
+
+        .preset-item {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            padding: 0.6rem 0.8rem;
+            background: rgba(3, 7, 18, 0.6);
+            font-family: var(--mono);
+            font-size: 0.72rem;
+        }
+
+        .preset-item span { flex: 1; letter-spacing: 0.08em; }
+
+        .preset-item button { padding: 0.4rem 0.9rem; font-size: 0.65rem; }
+
+        footer { color: var(--muted); text-align: center; font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; }
+
+        @media (max-width: 820px) { header { flex-direction: column; align-items: flex-start; } }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <path d="M19 12H5m6 6l-6-6 6-6" />
+            </svg>
+            Mission Control
+        </a>
+        <div class="readout" id="status">Amplitude 1.00 • Frequency 3.00 • Particles 240</div>
+    </header>
+
+    <main>
+        <div class="field">
+            <canvas id="field" role="img" aria-label="Interactive harmonic field"></canvas>
+        </div>
+        <aside class="panel">
+            <div>
+                <h1>Harmonic field</h1>
+                <p>
+                    This chamber visualises coupled oscillators using layered Lissajous curves. Pull particles with your cursor
+                    or tap the screen to spawn attractors. Controls let you sculpt amplitude, frequency, drag, persistence, and
+                    colour modes. Save presets to sync swarms across crews or export single-frame captures.
+                </p>
+            </div>
+            <div class="control-grid">
+                <label>
+                    Amplitude
+                    <input id="amplitude" type="range" min="0.2" max="2.5" step="0.1" value="1" />
+                </label>
+                <label>
+                    Frequency
+                    <input id="frequency" type="range" min="1" max="12" step="0.1" value="3" />
+                </label>
+                <label>
+                    Drag
+                    <input id="drag" type="range" min="0.85" max="0.995" step="0.005" value="0.94" />
+                </label>
+                <label>
+                    Particles
+                    <input id="particles" type="range" min="120" max="420" step="20" value="240" />
+                </label>
+                <label>
+                    Trail persistence
+                    <input id="persistence" type="range" min="0.1" max="0.8" step="0.05" value="0.36" />
+                </label>
+                <label>
+                    Colour mode
+                    <select id="color-mode">
+                        <option value="spectrum">Spectrum Pulse</option>
+                        <option value="aurora">Aurora Bloom</option>
+                        <option value="mono">Monochrome Echo</option>
+                    </select>
+                </label>
+            </div>
+            <div class="button-row">
+                <button type="button" id="reset">Reset Swarm</button>
+                <button type="button" id="freeze">Freeze Motion</button>
+                <button type="button" id="burst">Pulse Burst</button>
+                <button type="button" id="snapshot">Snapshot PNG</button>
+            </div>
+            <div class="metrics" id="metrics" aria-live="polite"></div>
+            <div class="preset-panel">
+                <strong style="letter-spacing:0.16em;text-transform:uppercase;font-size:0.75rem;color:var(--accent-strong);">Preset deck</strong>
+                <label>
+                    Preset name
+                    <input type="text" id="preset-name" placeholder="e.g. Chorus-Spiral" />
+                </label>
+                <div class="button-row">
+                    <button type="button" id="save-preset">Save Preset</button>
+                    <button type="button" id="clear-presets">Clear Presets</button>
+                </div>
+                <div class="preset-list" id="preset-list"></div>
+            </div>
+            <p>
+                Keyboard controls: press <kbd>Space</kbd> to toggle motion, <kbd>R</kbd> to reset, and <kbd>B</kbd> to burst.
+                Reduced-motion visitors start paused by default.
+            </p>
+        </aside>
+    </main>
+
+    <footer>Coupled oscillators rendered live • Aurora Odyssey Portals</footer>
+
+    <script>
+        const canvas = document.getElementById("field");
+        const ctx = canvas.getContext("2d");
+        const amplitudeInput = document.getElementById("amplitude");
+        const frequencyInput = document.getElementById("frequency");
+        const dragInput = document.getElementById("drag");
+        const particleInput = document.getElementById("particles");
+        const persistenceInput = document.getElementById("persistence");
+        const colorModeSelect = document.getElementById("color-mode");
+        const status = document.getElementById("status");
+        const resetButton = document.getElementById("reset");
+        const freezeButton = document.getElementById("freeze");
+        const burstButton = document.getElementById("burst");
+        const snapshotButton = document.getElementById("snapshot");
+        const metricsPanel = document.getElementById("metrics");
+        const presetName = document.getElementById("preset-name");
+        const savePresetButton = document.getElementById("save-preset");
+        const clearPresetsButton = document.getElementById("clear-presets");
+        const presetList = document.getElementById("preset-list");
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const presetKey = "aurora-harmonic-presets";
+
+        let width, height, center;
+        let animationFrame;
+        let running = !prefersReducedMotion;
+        let time = 0;
+        let lastTimestamp = 0;
+        const pointer = { x: 0, y: 0, active: false };
+        let nodes = [];
+
+        const settings = {
+            amplitude: parseFloat(amplitudeInput.value),
+            frequency: parseFloat(frequencyInput.value),
+            drag: parseFloat(dragInput.value),
+            particles: parseInt(particleInput.value, 10),
+            persistence: parseFloat(persistenceInput.value),
+            colorMode: colorModeSelect.value,
+        };
+
+        function setParticles(count) {
+            nodes = Array.from({ length: count }, () => ({
+                angle: Math.random() * Math.PI * 2,
+                radius: Math.random(),
+                x: 0,
+                y: 0,
+                vx: 0,
+                vy: 0,
+            }));
+        }
+
+        function resize() {
+            width = canvas.clientWidth;
+            height = canvas.clientHeight;
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.scale(dpr, dpr);
+            center = { x: width / 2, y: height / 2 };
+        }
+
+        function updateStatus() {
+            status.textContent = `Amplitude ${settings.amplitude.toFixed(2)} • Frequency ${settings.frequency.toFixed(2)} • Particles ${settings.particles}`;
+        }
+
+        function advance(timestamp) {
+            if (!lastTimestamp) {
+                lastTimestamp = timestamp;
+            }
+            const delta = (timestamp - lastTimestamp) * 0.0012;
+            lastTimestamp = timestamp;
+            time += delta;
+        }
+
+        function integrateNodes() {
+            nodes.forEach((node, index) => {
+                const base = settings.amplitude * (0.6 + node.radius * 0.6);
+                const freq = settings.frequency * (0.7 + index / nodes.length);
+                const xTarget = Math.sin(time * freq + node.angle * 3) * base * width * 0.25;
+                const yTarget = Math.cos(time * freq * 0.7 + node.angle * 2) * base * height * 0.22;
+
+                node.vx += (xTarget - node.x) * 0.02;
+                node.vy += (yTarget - node.y) * 0.02;
+
+                if (pointer.active) {
+                    const dx = pointer.x - (node.x + center.x);
+                    const dy = pointer.y - (node.y + center.y);
+                    const dist = Math.hypot(dx, dy) + 0.001;
+                    const force = Math.min(120 / dist, 3);
+                    node.vx += (dx / dist) * force * 0.04;
+                    node.vy += (dy / dist) * 0.04;
+                }
+
+                node.vx *= settings.drag;
+                node.vy *= settings.drag;
+
+                node.x += node.vx;
+                node.y += node.vy;
+            });
+        }
+
+        function getColor(index) {
+            const hueBase = (time * 80 + index * 0.6) % 360;
+            switch (settings.colorMode) {
+                case "aurora":
+                    return `hsla(${(hueBase + 140) % 360}, 85%, 70%, 0.75)`;
+                case "mono":
+                    return `hsla(200, 20%, ${60 + Math.sin(time + index) * 10}%, 0.7)`;
+                default:
+                    return `hsla(${hueBase}, 90%, 70%, 0.7)`;
+            }
+        }
+
+        function drawField(update = true) {
+            ctx.fillStyle = `rgba(2, 6, 20, ${update ? settings.persistence : 1})`;
+            ctx.fillRect(0, 0, width, height);
+
+            ctx.save();
+            ctx.translate(center.x, center.y);
+
+            ctx.lineWidth = 1.2;
+            ctx.strokeStyle = settings.colorMode === "mono" ? "rgba(190, 200, 220, 0.4)" : `hsla(${(time * 60) % 360}, 85%, 65%, 0.5)`;
+            ctx.beginPath();
+            nodes.forEach((node, index) => {
+                const next = nodes[(index + 1) % nodes.length];
+                ctx.moveTo(node.x, node.y);
+                ctx.lineTo(next.x, next.y);
+            });
+            ctx.stroke();
+
+            ctx.globalCompositeOperation = "lighter";
+            nodes.forEach((node, index) => {
+                ctx.fillStyle = getColor(index);
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, 1.8 + Math.sin(time + index) * 0.6, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            ctx.globalCompositeOperation = "source-over";
+
+            ctx.restore();
+        }
+
+        function renderFrame(timestamp, update = true) {
+            if (update) {
+                advance(timestamp);
+                integrateNodes();
+            }
+            drawField(update);
+            renderMetrics();
+        }
+
+        function step(timestamp) {
+            if (!running) return;
+            renderFrame(timestamp, true);
+            animationFrame = requestAnimationFrame(step);
+        }
+
+        function start() {
+            if (!running) {
+                running = true;
+                lastTimestamp = performance.now();
+                animationFrame = requestAnimationFrame(step);
+                freezeButton.textContent = "Freeze Motion";
+            }
+        }
+
+        function stop() {
+            running = false;
+            cancelAnimationFrame(animationFrame);
+            freezeButton.textContent = "Resume Motion";
+            renderFrame(lastTimestamp || performance.now(), false);
+        }
+
+        function toggle() {
+            running ? stop() : start();
+        }
+
+        function reset() {
+            nodes.forEach((node) => {
+                node.x = 0;
+                node.y = 0;
+                node.vx = 0;
+                node.vy = 0;
+            });
+            time = 0;
+            lastTimestamp = 0;
+            renderFrame(performance.now(), running);
+        }
+
+        function burst() {
+            nodes.forEach((node) => {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 12 + 4;
+                node.vx += Math.cos(angle) * speed;
+                node.vy += Math.sin(angle) * speed;
+            });
+            renderFrame(performance.now(), true);
+            if (!running) {
+                renderFrame(performance.now(), false);
+            }
+        }
+
+        function snapshot() {
+            const link = document.createElement("a");
+            link.href = canvas.toDataURL("image/png");
+            const name = presetName.value.trim() || `harmonic-${Date.now()}`;
+            link.download = `${name.replace(/\s+/g, "-")}.png`;
+            link.click();
+        }
+
+        function renderMetrics() {
+            const velocity = nodes.reduce((sum, node) => sum + Math.hypot(node.vx, node.vy), 0) / nodes.length;
+            const spread = nodes.reduce((sum, node) => sum + Math.hypot(node.x, node.y), 0) / nodes.length;
+            metricsPanel.innerHTML = `
+                <div class="metric"><strong>Velocity</strong><span>${velocity.toFixed(2)}</span></div>
+                <div class="metric"><strong>Spread</strong><span>${spread.toFixed(1)}</span></div>
+                <div class="metric"><strong>Persistence</strong><span>${settings.persistence.toFixed(2)}</span></div>
+                <div class="metric"><strong>Mode</strong><span>${settings.colorMode}</span></div>
+            `;
+        }
+
+        function getPresetPayload() {
+            return {
+                name: presetName.value.trim() || `Preset ${new Date().toLocaleTimeString()}`,
+                settings: { ...settings },
+                timestamp: Date.now(),
+            };
+        }
+
+        function getPresets() {
+            const stored = localStorage.getItem(presetKey);
+            if (!stored) return [];
+            try {
+                return JSON.parse(stored);
+            } catch (error) {
+                console.warn("Failed to parse harmonic presets", error);
+                return [];
+            }
+        }
+
+        function savePresets(list) {
+            localStorage.setItem(presetKey, JSON.stringify(list.slice(0, 12)));
+        }
+
+        function renderPresets() {
+            const presets = getPresets();
+            presetList.innerHTML = presets.length
+                ? presets
+                      .map(
+                          (preset, index) => `
+                              <div class="preset-item">
+                                  <span>${preset.name}</span>
+                                  <button type="button" data-index="${index}" data-action="load">Load</button>
+                                  <button type="button" data-index="${index}" data-action="delete">Delete</button>
+                              </div>
+                          `
+                      )
+                      .join("")
+                : '<div style="text-align:center;color:var(--muted);letter-spacing:0.08em;">No presets saved yet.</div>';
+
+            presetList.querySelectorAll("button").forEach((button) => {
+                button.addEventListener("click", () => {
+                    const index = Number(button.dataset.index);
+                    const presets = getPresets();
+                    const preset = presets[index];
+                    if (button.dataset.action === "load" && preset) {
+                        applyPreset(preset);
+                    } else if (button.dataset.action === "delete") {
+                        presets.splice(index, 1);
+                        savePresets(presets);
+                        renderPresets();
+                    }
+                });
+            });
+        }
+
+        function applyPreset(preset) {
+            Object.assign(settings, preset.settings);
+            amplitudeInput.value = settings.amplitude;
+            frequencyInput.value = settings.frequency;
+            dragInput.value = settings.drag;
+            particleInput.value = settings.particles;
+            persistenceInput.value = settings.persistence;
+            colorModeSelect.value = settings.colorMode;
+            setParticles(settings.particles);
+            updateStatus();
+            renderFrame(performance.now(), false);
+        }
+
+        amplitudeInput.addEventListener("input", () => {
+            settings.amplitude = parseFloat(amplitudeInput.value);
+            updateStatus();
+        });
+
+        frequencyInput.addEventListener("input", () => {
+            settings.frequency = parseFloat(frequencyInput.value);
+            updateStatus();
+        });
+
+        dragInput.addEventListener("input", () => {
+            settings.drag = parseFloat(dragInput.value);
+        });
+
+        particleInput.addEventListener("input", () => {
+            settings.particles = parseInt(particleInput.value, 10);
+            setParticles(settings.particles);
+            updateStatus();
+        });
+
+        persistenceInput.addEventListener("input", () => {
+            settings.persistence = parseFloat(persistenceInput.value);
+        });
+
+        colorModeSelect.addEventListener("change", () => {
+            settings.colorMode = colorModeSelect.value;
+        });
+
+        resetButton.addEventListener("click", reset);
+        freezeButton.addEventListener("click", toggle);
+        burstButton.addEventListener("click", burst);
+        snapshotButton.addEventListener("click", snapshot);
+
+        savePresetButton.addEventListener("click", () => {
+            const presets = getPresets();
+            presets.unshift(getPresetPayload());
+            savePresets(presets);
+            renderPresets();
+        });
+
+        clearPresetsButton.addEventListener("click", () => {
+            localStorage.removeItem(presetKey);
+            renderPresets();
+        });
+
+        window.addEventListener("keydown", (event) => {
+            if (event.code === "Space") {
+                event.preventDefault();
+                toggle();
+            }
+            if (event.key === "r" || event.key === "R") {
+                reset();
+            }
+            if (event.key === "b" || event.key === "B") {
+                burst();
+            }
+        });
+
+        function setPointerPosition(clientX, clientY) {
+            const rect = canvas.getBoundingClientRect();
+            pointer.x = clientX - rect.left;
+            pointer.y = clientY - rect.top;
+        }
+
+        canvas.addEventListener("pointerdown", (event) => {
+            pointer.active = true;
+            setPointerPosition(event.clientX, event.clientY);
+        });
+
+        canvas.addEventListener("pointermove", (event) => {
+            if (!pointer.active) return;
+            setPointerPosition(event.clientX, event.clientY);
+        });
+
+        window.addEventListener("pointerup", () => {
+            pointer.active = false;
+        });
+
+        canvas.addEventListener("touchmove", (event) => {
+            if (event.touches[0]) {
+                pointer.active = true;
+                setPointerPosition(event.touches[0].clientX, event.touches[0].clientY);
+            }
+        }, { passive: false });
+
+        canvas.addEventListener("touchend", () => {
+            pointer.active = false;
+        });
+
+        window.addEventListener("resize", () => {
+            resize();
+            renderFrame(performance.now(), running);
+        });
+
+        resize();
+        setParticles(settings.particles);
+        updateStatus();
+        renderPresets();
+        if (running) {
+            lastTimestamp = performance.now();
+            animationFrame = requestAnimationFrame(step);
+        } else {
+            renderFrame(performance.now(), false);
+        }
+    </script>
+</body>
+</html>

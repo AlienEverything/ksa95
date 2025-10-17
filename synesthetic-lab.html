@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aurora Odyssey • Synesthetic Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: radial-gradient(circle at 20% 20%, rgba(110, 245, 255, 0.4), transparent 55%),
+                   radial-gradient(circle at 80% 15%, rgba(255, 111, 181, 0.35), transparent 60%),
+                   linear-gradient(180deg, #020111 0%, #12072a 50%, #020111 100%);
+            --panel: rgba(10, 8, 30, 0.8);
+            --border: rgba(255, 255, 255, 0.12);
+            --text: rgba(255, 255, 255, 0.92);
+            --muted: rgba(255, 255, 255, 0.68);
+            --accent: #6ef5ff;
+            --accent-strong: #ffe483;
+            --shadow: 0 25px 60px rgba(6, 12, 34, 0.4);
+            --mono: "IBM Plex Mono", monospace;
+            --sans: "Space Grotesk", system-ui, sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: var(--sans);
+            color: var(--text);
+            background: var(--bg);
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+        }
+
+        header,
+        footer { padding: 2rem clamp(1.5rem, 4vw, 3.5rem); }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+        }
+
+        header a {
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            font-size: 0.75rem;
+            color: var(--text);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        header svg { width: 1.1rem; height: 1.1rem; }
+
+        main {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: clamp(2rem, 5vw, 3.5rem);
+            padding: 0 clamp(1.5rem, 4vw, 3.5rem) clamp(2.5rem, 6vw, 4rem);
+        }
+
+        .visualizer {
+            position: relative;
+            border-radius: 32px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: rgba(4, 6, 18, 0.8);
+            box-shadow: var(--shadow);
+            min-height: min(70vh, 600px);
+        }
+
+        canvas { width: 100%; height: 100%; display: block; }
+
+        .panel {
+            border-radius: 28px;
+            padding: clamp(1.5rem, 4vw, 2.5rem);
+            background: var(--panel);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(18px);
+            box-shadow: var(--shadow);
+            display: grid;
+            gap: 1.6rem;
+            align-content: start;
+        }
+
+        h1 { margin: 0; text-transform: uppercase; letter-spacing: 0.18em; font-size: clamp(1.8rem, 3.2vw, 2.6rem); }
+
+        p { margin: 0; color: var(--muted); line-height: 1.8; }
+
+        .pads { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; }
+
+        .pad {
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1.5rem 1.25rem;
+            background: rgba(255, 255, 255, 0.05);
+            text-align: left;
+            cursor: pointer;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            display: grid;
+            gap: 0.35rem;
+        }
+
+        .pad span { font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+
+        .pad strong { font-size: 1.1rem; letter-spacing: 0.08em; }
+
+        .pad:hover,
+        .pad:focus-visible { transform: translateY(-6px); border-color: var(--accent-strong); box-shadow: 0 18px 45px rgba(110, 245, 255, 0.3); }
+
+        .controls { display: grid; gap: 1.1rem; }
+
+        label { display: grid; gap: 0.45rem; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; }
+
+        input[type="range"],
+        input[type="number"],
+        select {
+            width: 100%;
+            accent-color: var(--accent);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(3, 8, 18, 0.65);
+            padding: 0.75rem 1rem;
+            color: var(--text);
+            font-family: var(--sans);
+        }
+
+        .palette { display: grid; gap: 0.85rem; }
+
+        .swatch-row { display: flex; gap: 0.5rem; }
+
+        .swatch { flex: 1; height: 40px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.2); }
+
+        .button-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+        button {
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 0.65rem 1.4rem;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        button:hover,
+        button:focus-visible { border-color: var(--accent-strong); transform: translateY(-2px); }
+
+        .status { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.14em; color: var(--accent-strong); }
+
+        .saved-palettes { border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.16); background: rgba(255, 255, 255, 0.05); padding: 1.1rem 1.3rem; display: grid; gap: 0.8rem; }
+
+        .saved-palettes ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.65rem; }
+
+        .saved-palettes li { border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.14); padding: 0.75rem 1rem; display: grid; gap: 0.35rem; background: rgba(3, 7, 18, 0.6); font-family: var(--mono); font-size: 0.72rem; }
+
+        .saved-palettes li footer { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+        .saved-palettes li footer button { padding: 0.35rem 0.9rem; font-size: 0.65rem; }
+
+        footer { color: var(--muted); text-align: center; font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; }
+
+        kbd { display: inline-block; padding: 0.2rem 0.4rem; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.3); font-size: 0.75rem; letter-spacing: 0.1em; }
+
+        @media (max-width: 820px) { header { flex-direction: column; align-items: flex-start; } }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <path d="M19 12H5m6 6l-6-6 6-6" />
+            </svg>
+            Mission Control
+        </a>
+        <div class="status" id="status">Audio engine idle</div>
+    </header>
+
+    <main>
+        <div class="visualizer">
+            <canvas id="visualizer" role="img" aria-label="Audio reactive spectrum"></canvas>
+        </div>
+        <aside class="panel">
+            <div>
+                <h1>Synesthetic lab</h1>
+                <p>
+                    Trigger chromatic pads to launch chords. The Web Audio engine weaves oscillators and noise into lush beds,
+                    while the canvas spectrum paints every frequency. Automate sequences, tune tempo, save palettes, and export
+                    synesthetic recipes to share with other crews.
+                </p>
+            </div>
+            <div class="pads" role="list">
+                <button class="pad" data-chord="A3,C#4,E4" data-name="Glacier Pad" style="--pad-color:#6ef5ff" type="button">
+                    <strong>Glacier Pad</strong>
+                    <span>A · C♯ · E</span>
+                </button>
+                <button class="pad" data-chord="F3,A3,C4" data-name="Magenta Bloom" style="--pad-color:#ff9be7" type="button">
+                    <strong>Magenta Bloom</strong>
+                    <span>F · A · C</span>
+                </button>
+                <button class="pad" data-chord="G3,B3,D4" data-name="Solar Flare" style="--pad-color:#ffe483" type="button">
+                    <strong>Solar Flare</strong>
+                    <span>G · B · D</span>
+                </button>
+                <button class="pad" data-chord="E3,G#3,B3" data-name="Verdant Echo" style="--pad-color:#9cffae" type="button">
+                    <strong>Verdant Echo</strong>
+                    <span>E · G♯ · B</span>
+                </button>
+            </div>
+            <div class="controls">
+                <label>
+                    Tempo (BPM)
+                    <input type="range" id="tempo" min="40" max="160" step="5" value="90" />
+                </label>
+                <label>
+                    Volume
+                    <input type="range" id="volume" min="0" max="100" value="60" />
+                </label>
+                <label>
+                    Sequence length
+                    <select id="sequence-length">
+                        <option value="4">4 steps</option>
+                        <option value="8">8 steps</option>
+                        <option value="12">12 steps</option>
+                    </select>
+                </label>
+                <div class="button-row">
+                    <button type="button" id="toggle-sequence">Start Sequence</button>
+                    <button type="button" id="shuffle-sequence">Shuffle Steps</button>
+                </div>
+                <p id="sequence-display" style="font-family:var(--mono);font-size:0.75rem;letter-spacing:0.12em;color:var(--accent-strong);">Sequence: —</p>
+            </div>
+            <div class="palette">
+                <div class="swatch-row" id="swatches">
+                    <div class="swatch"></div>
+                    <div class="swatch"></div>
+                    <div class="swatch"></div>
+                </div>
+                <div class="button-row">
+                    <button type="button" id="savePalette">Save Palette</button>
+                    <button type="button" id="downloadPalette">Download JSON</button>
+                    <button type="button" id="clearPalettes">Clear Saved</button>
+                </div>
+                <p id="paletteStatus">Tap pads to update the palette blend. Press <kbd>S</kbd> to save without clicking.</p>
+            </div>
+            <div class="saved-palettes">
+                <strong style="letter-spacing:0.16em;text-transform:uppercase;font-size:0.75rem;color:var(--accent-strong);">Saved palettes</strong>
+                <ul id="palette-list"></ul>
+            </div>
+        </aside>
+    </main>
+
+    <footer>Web Audio + generative spectra • Aurora Odyssey Portals</footer>
+
+    <script>
+        const canvas = document.getElementById("visualizer");
+        const ctx = canvas.getContext("2d");
+        const status = document.getElementById("status");
+        const padButtons = Array.from(document.querySelectorAll(".pad"));
+        const tempoInput = document.getElementById("tempo");
+        const volumeInput = document.getElementById("volume");
+        const sequenceLengthSelect = document.getElementById("sequence-length");
+        const toggleSequenceButton = document.getElementById("toggle-sequence");
+        const shuffleSequenceButton = document.getElementById("shuffle-sequence");
+        const sequenceDisplay = document.getElementById("sequence-display");
+        const saveButton = document.getElementById("savePalette");
+        const downloadButton = document.getElementById("downloadPalette");
+        const clearButton = document.getElementById("clearPalettes");
+        const swatches = document.getElementById("swatches");
+        const paletteStatus = document.getElementById("paletteStatus");
+        const paletteList = document.getElementById("palette-list");
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const paletteKey = "aurora-synesthetic-palettes";
+
+        let width, height;
+        let analyser;
+        let dataArray;
+        let audioContext;
+        let masterGain;
+        let visualFrame;
+        const palettes = [];
+        let currentPalette = ["#6ef5ff", "#ff9be7", "#ffe483", "#9cffae"];
+        let sequence = [];
+        let sequenceTimer;
+        let sequenceRunning = false;
+
+        function resize() {
+            width = canvas.clientWidth;
+            height = canvas.clientHeight;
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.scale(dpr, dpr);
+        }
+
+        async function prepareAudio() {
+            if (audioContext) return;
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            masterGain = audioContext.createGain();
+            masterGain.gain.value = volumeInput.value / 100;
+            analyser = audioContext.createAnalyser();
+            analyser.fftSize = 1024;
+            dataArray = new Uint8Array(analyser.frequencyBinCount);
+            masterGain.connect(analyser);
+            analyser.connect(audioContext.destination);
+            status.textContent = "Audio engine armed";
+        }
+
+        function noteToFrequency(note) {
+            const [pitch, octave] = note.split(/(?=\d)/);
+            const reference = { C: 0, "C#": 1, Db: 1, D: 2, "D#": 3, Eb: 3, E: 4, F: 5, "F#": 6, Gb: 6, G: 7, "G#": 8, Ab: 8, A: 9, "A#": 10, Bb: 10, B: 11 };
+            const semitone = reference[pitch];
+            const oct = parseInt(octave, 10);
+            const midi = (oct + 1) * 12 + semitone;
+            return 440 * Math.pow(2, (midi - 69) / 12);
+        }
+
+        function triggerPad(pad) {
+            prepareAudio();
+            if (audioContext.state === "suspended") {
+                audioContext.resume();
+            }
+
+            const chord = pad.dataset.chord.split(",").map((note) => noteToFrequency(note.trim()));
+            const color = pad.style.getPropertyValue("--pad-color") || "#6ef5ff";
+            currentPalette.unshift(color);
+            currentPalette = currentPalette.slice(0, 4);
+            updateSwatches();
+
+            const now = audioContext.currentTime;
+            const chordGain = audioContext.createGain();
+            chordGain.gain.setValueAtTime(0, now);
+            chordGain.gain.linearRampToValueAtTime(0.8, now + 0.02);
+            chordGain.gain.exponentialRampToValueAtTime(0.0001, now + 2.8);
+            chordGain.connect(masterGain);
+
+            chord.forEach((frequency, index) => {
+                const osc = audioContext.createOscillator();
+                const lfo = audioContext.createOscillator();
+                const lfoGain = audioContext.createGain();
+                lfo.frequency.value = 0.35 + index * 0.12;
+                lfoGain.gain.value = 5 + index * 2;
+                lfo.connect(lfoGain);
+                lfoGain.connect(osc.frequency);
+                osc.type = index % 2 === 0 ? "sine" : "triangle";
+                osc.frequency.setValueAtTime(frequency, now);
+                osc.connect(chordGain);
+                osc.start(now);
+                osc.stop(now + 3);
+                lfo.start(now);
+                lfo.stop(now + 3);
+            });
+
+            const noiseBuffer = audioContext.createBuffer(1, audioContext.sampleRate * 2, audioContext.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < output.length; i++) {
+                output[i] = (Math.random() * 2 - 1) * (1 - i / output.length);
+            }
+            const noiseSource = audioContext.createBufferSource();
+            noiseSource.buffer = noiseBuffer;
+            const noiseGain = audioContext.createGain();
+            noiseGain.gain.setValueAtTime(0, now);
+            noiseGain.gain.linearRampToValueAtTime(0.3, now + 0.05);
+            noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.6);
+            noiseSource.connect(noiseGain);
+            noiseGain.connect(masterGain);
+            noiseSource.start(now);
+            noiseSource.stop(now + 1.6);
+
+            status.textContent = `Playing ${pad.dataset.name}`;
+        }
+
+        function updateSwatches() {
+            const gradients = [
+                `linear-gradient(135deg, ${currentPalette[0]}, ${currentPalette[1]})`,
+                `linear-gradient(135deg, ${currentPalette[1]}, ${currentPalette[2]})`,
+                `linear-gradient(135deg, ${currentPalette[2]}, ${currentPalette[3]})`,
+            ];
+            Array.from(swatches.children).forEach((swatch, index) => {
+                swatch.style.background = gradients[index % gradients.length];
+            });
+        }
+
+        function savePalette() {
+            const payload = {
+                colors: [...currentPalette],
+                tempo: Number(tempoInput.value),
+                sequence,
+                timestamp: Date.now(),
+            };
+            palettes.unshift(payload);
+            localStorage.setItem(paletteKey, JSON.stringify(palettes.slice(0, 12)));
+            renderPaletteList();
+            paletteStatus.textContent = `Saved palette ${palettes.length}: ${payload.colors.join(" · ")}`;
+        }
+
+        function downloadPalette() {
+            const payload = {
+                colors: currentPalette,
+                tempo: Number(tempoInput.value),
+                sequence,
+            };
+            const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `palette-${Date.now()}.json`;
+            link.click();
+            setTimeout(() => URL.revokeObjectURL(link.href), 0);
+        }
+
+        function loadPalettes() {
+            const stored = localStorage.getItem(paletteKey);
+            if (!stored) return;
+            try {
+                const parsed = JSON.parse(stored);
+                palettes.splice(0, palettes.length, ...parsed);
+            } catch (error) {
+                console.warn("Failed to parse palettes", error);
+            }
+        }
+
+        function renderPaletteList() {
+            if (!palettes.length) {
+                paletteList.innerHTML = '<li style="text-align:center;color:var(--muted);">No saved palettes yet.</li>';
+                return;
+            }
+            paletteList.innerHTML = palettes
+                .map((palette, index) => {
+                    const label = palette.colors.join(" · ");
+                    return `
+                        <li>
+                            <div>${label}</div>
+                            <footer>
+                                <button type="button" data-index="${index}" data-action="load">Load</button>
+                                <button type="button" data-index="${index}" data-action="copy">Copy</button>
+                                <button type="button" data-index="${index}" data-action="delete">Delete</button>
+                            </footer>
+                        </li>
+                    `;
+                })
+                .join("");
+
+            paletteList.querySelectorAll("button").forEach((button) => {
+                button.addEventListener("click", () => {
+                    const index = Number(button.dataset.index);
+                    const palette = palettes[index];
+                    if (!palette) return;
+                    if (button.dataset.action === "load") {
+                        currentPalette = [...palette.colors];
+                        updateSwatches();
+                        tempoInput.value = palette.tempo;
+                        sequence = [...palette.sequence];
+                        displaySequence();
+                    } else if (button.dataset.action === "copy") {
+                        navigator.clipboard.writeText(palette.colors.join(", ")).then(() => {
+                            paletteStatus.textContent = "Palette copied to clipboard";
+                        });
+                    } else if (button.dataset.action === "delete") {
+                        palettes.splice(index, 1);
+                        localStorage.setItem(paletteKey, JSON.stringify(palettes));
+                        renderPaletteList();
+                    }
+                });
+            });
+        }
+
+        function clearPalettes() {
+            palettes.splice(0, palettes.length);
+            localStorage.removeItem(paletteKey);
+            renderPaletteList();
+        }
+
+        function buildSequence(length) {
+            const names = padButtons.map((pad) => pad.dataset.name);
+            sequence = Array.from({ length }, () => names[Math.floor(Math.random() * names.length)]);
+            displaySequence();
+        }
+
+        function displaySequence() {
+            sequenceDisplay.textContent = sequence.length ? `Sequence: ${sequence.join(" → ")}` : "Sequence: —";
+        }
+
+        function runSequenceStep() {
+            if (!sequence.length) return;
+            const name = sequence.shift();
+            const pad = padButtons.find((button) => button.dataset.name === name) || padButtons[0];
+            triggerPad(pad);
+            sequence.push(name);
+            displaySequence();
+        }
+
+        function toggleSequence() {
+            if (sequenceRunning) {
+                clearInterval(sequenceTimer);
+                sequenceRunning = false;
+                toggleSequenceButton.textContent = "Start Sequence";
+                return;
+            }
+            const interval = (60 / Number(tempoInput.value)) * 1000;
+            if (!sequence.length) {
+                buildSequence(Number(sequenceLengthSelect.value));
+            }
+            runSequenceStep();
+            sequenceTimer = setInterval(runSequenceStep, interval);
+            sequenceRunning = true;
+            toggleSequenceButton.textContent = "Stop Sequence";
+        }
+
+        function shuffleSequence() {
+            buildSequence(Number(sequenceLengthSelect.value));
+        }
+
+        function animate() {
+            if (!analyser) {
+                ctx.fillStyle = "rgba(10, 12, 26, 1)";
+                ctx.fillRect(0, 0, width, height);
+            } else {
+                analyser.getByteFrequencyData(dataArray);
+                ctx.fillStyle = prefersReducedMotion ? "rgba(10, 12, 26, 1)" : "rgba(10, 12, 26, 0.2)";
+                ctx.fillRect(0, 0, width, height);
+
+                const barWidth = (width / dataArray.length) * 2.5;
+                let x = 0;
+                for (let i = 0; i < dataArray.length; i++) {
+                    const value = dataArray[i];
+                    const percent = value / 255;
+                    const barHeight = percent * height * 0.9;
+                    const hue = (i / dataArray.length) * 360;
+                    ctx.fillStyle = `hsla(${hue}, 90%, ${50 + percent * 35}%, ${prefersReducedMotion ? 0.9 : 0.6})`;
+                    ctx.fillRect(x, height - barHeight, barWidth, barHeight);
+                    x += barWidth + 1;
+                }
+
+                if (!prefersReducedMotion) {
+                    const gradient = ctx.createRadialGradient(width / 2, height / 2, 0, width / 2, height / 2, Math.min(width, height));
+                    gradient.addColorStop(0, `${currentPalette[0]}22`);
+                    gradient.addColorStop(0.5, `${currentPalette[1]}11`);
+                    gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, 0, width, height);
+                }
+            }
+            visualFrame = requestAnimationFrame(animate);
+        }
+
+        padButtons.forEach((pad) => {
+            pad.addEventListener("click", () => triggerPad(pad));
+            pad.addEventListener("keydown", (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    triggerPad(pad);
+                }
+            });
+        });
+
+        saveButton.addEventListener("click", savePalette);
+        downloadButton.addEventListener("click", downloadPalette);
+        clearButton.addEventListener("click", clearPalettes);
+        toggleSequenceButton.addEventListener("click", toggleSequence);
+        shuffleSequenceButton.addEventListener("click", shuffleSequence);
+
+        tempoInput.addEventListener("input", () => {
+            if (sequenceRunning) {
+                clearInterval(sequenceTimer);
+                sequenceRunning = false;
+                toggleSequence();
+            }
+        });
+
+        volumeInput.addEventListener("input", () => {
+            if (masterGain) {
+                masterGain.gain.value = volumeInput.value / 100;
+            }
+        });
+
+        sequenceLengthSelect.addEventListener("change", () => buildSequence(Number(sequenceLengthSelect.value)));
+
+        window.addEventListener("keydown", (event) => {
+            if (event.key === "s" || event.key === "S") {
+                savePalette();
+            }
+        });
+
+        window.addEventListener("resize", resize);
+
+        resize();
+        updateSwatches();
+        loadPalettes();
+        renderPaletteList();
+        buildSequence(Number(sequenceLengthSelect.value));
+        animate();
+    </script>
+</body>
+</html>

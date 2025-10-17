@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Aurora Odyssey mission planner wizard builds multi-phase itineraries with resource budgets, timeline canvas, and shareable manifests." />
+    <title>Aurora Odyssey • Mission Planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: radial-gradient(circle at 15% 15%, rgba(116, 247, 255, 0.25), transparent 55%),
+                   radial-gradient(circle at 80% 30%, rgba(255, 228, 131, 0.2), transparent 60%),
+                   linear-gradient(180deg, #01020b 0%, #050c22 45%, #01020b 100%);
+            --panel: rgba(8, 16, 40, 0.8);
+            --panel-strong: rgba(6, 12, 32, 0.92);
+            --border: rgba(255, 255, 255, 0.12);
+            --text: rgba(255, 255, 255, 0.92);
+            --muted: rgba(255, 255, 255, 0.68);
+            --accent: #74f7ff;
+            --accent-strong: #ffe483;
+            --shadow: 0 25px 60px rgba(4, 8, 24, 0.35);
+            --mono: "IBM Plex Mono", monospace;
+            --sans: "Space Grotesk", system-ui, sans-serif;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: var(--sans);
+            color: var(--text);
+            background: var(--bg);
+            min-height: 100vh;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+        }
+
+        header,
+        footer {
+            padding: 2.2rem clamp(1.5rem, 4vw, 3.5rem);
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        header a {
+            text-decoration: none;
+            color: var(--text);
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        header svg { width: 1.1rem; height: 1.1rem; }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        main {
+            padding: 0 clamp(1.5rem, 4vw, 3.5rem) clamp(2.5rem, 6vw, 4rem);
+            display: grid;
+            gap: clamp(2rem, 5vw, 3.5rem);
+        }
+
+        .planner {
+            display: grid;
+            grid-template-columns: minmax(260px, 320px) 1fr;
+            gap: clamp(2rem, 4vw, 3.5rem);
+        }
+
+        .panel {
+            border-radius: 28px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(18px);
+            padding: clamp(1.75rem, 4vw, 2.5rem);
+            display: grid;
+            gap: 1.6rem;
+        }
+
+        .steps {
+            position: sticky;
+            top: 1.5rem;
+            align-self: start;
+        }
+
+        .steps__progress {
+            display: grid;
+            gap: 1.1rem;
+        }
+
+        .steps__item {
+            border-radius: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem 1.2rem;
+            display: grid;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .steps__item.active {
+            border-color: var(--accent-strong);
+            transform: translateX(6px);
+        }
+
+        .steps__item span {
+            font-size: 0.72rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .steps__item strong {
+            font-size: 1rem;
+            letter-spacing: 0.08em;
+        }
+
+        .step-content {
+            display: none;
+        }
+
+        .step-content.active {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        label {
+            display: grid;
+            gap: 0.45rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-size: 0.76rem;
+        }
+
+        input, select, textarea {
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(4, 8, 24, 0.7);
+            padding: 0.85rem 1rem;
+            color: var(--text);
+            font-family: var(--sans);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .module-grid {
+            display: grid;
+            gap: 1.25rem;
+        }
+
+        .module-card {
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            padding: 1.2rem 1.4rem;
+            background: rgba(255, 255, 255, 0.04);
+            display: grid;
+            gap: 0.6rem;
+        }
+
+        .module-card header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            padding: 0;
+        }
+
+        .module-card header h3 {
+            margin: 0;
+            font-size: 1rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .module-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .module-card footer {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.75rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .module-card footer span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .module-card footer span::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .toggle-row {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .toggle {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.7rem 0.9rem;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .inline {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .inline label {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .summary {
+            display: grid;
+            gap: clamp(1.75rem, 4vw, 2.5rem);
+        }
+
+        .summary__grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        }
+
+        .summary__item {
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem 1.2rem;
+            display: grid;
+            gap: 0.4rem;
+        }
+
+        .summary__item strong {
+            font-size: 0.72rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .summary__item span {
+            font-size: 1.2rem;
+            letter-spacing: 0.05em;
+        }
+
+        .summary__notes {
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: var(--panel-strong);
+            padding: 1.3rem 1.6rem;
+            line-height: 1.7;
+            color: var(--muted);
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .button {
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, rgba(116, 247, 255, 0.2), rgba(255, 228, 131, 0.2));
+            color: var(--text);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            padding: 0.65rem 1.6rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .button:hover,
+        .button:focus-visible {
+            transform: translateY(-2px);
+            border-color: var(--accent-strong);
+        }
+
+        .history {
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(6, 12, 32, 0.85);
+            padding: clamp(1.5rem, 4vw, 2.4rem);
+            display: grid;
+            gap: 1.4rem;
+        }
+
+        .history ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .history li {
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 1rem 1.25rem;
+            display: grid;
+            gap: 0.4rem;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .history li header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            padding: 0;
+        }
+
+        .history li header h4 {
+            margin: 0;
+            font-size: 0.95rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .history li header button {
+            background: none;
+            border: none;
+            color: var(--muted);
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            font-size: 0.68rem;
+            cursor: pointer;
+        }
+
+        .history li p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+
+        canvas {
+            width: 100%;
+            height: 240px;
+            border-radius: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(2, 6, 18, 0.7);
+            display: block;
+        }
+
+        footer {
+            color: var(--muted);
+            text-align: center;
+            font-size: 0.8rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 980px) {
+            .planner {
+                grid-template-columns: 1fr;
+            }
+
+            .steps {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" aria-label="Return to mission control">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5" />
+                <path d="M12 5l-7 7 7 7" />
+            </svg>
+            Mission Control
+        </a>
+        <h1>Mission Planner</h1>
+    </header>
+
+    <main>
+        <section class="planner" aria-label="Mission planner wizard">
+            <aside class="panel steps" aria-label="Planner steps">
+                <div class="steps__progress" id="steps">
+                    <button class="steps__item active" data-step="identity">
+                        <span>Step 01</span>
+                        <strong>Explorer identity</strong>
+                    </button>
+                    <button class="steps__item" data-step="modules">
+                        <span>Step 02</span>
+                        <strong>Module stack</strong>
+                    </button>
+                    <button class="steps__item" data-step="schedule">
+                        <span>Step 03</span>
+                        <strong>Schedule & logistics</strong>
+                    </button>
+                </div>
+            </aside>
+
+            <div class="panel" id="step-panels">
+                <div class="step-content active" data-step="identity">
+                    <label>
+                        Callsign
+                        <input type="text" id="callsign" placeholder="e.g. CELESTE-92" autocomplete="off" />
+                    </label>
+                    <label>
+                        Lead discipline
+                        <select id="discipline">
+                            <option value="Fractal Cartography">Fractal Cartography</option>
+                            <option value="Harmonic Analysis">Harmonic Analysis</option>
+                            <option value="Synesthetic Composition">Synesthetic Composition</option>
+                            <option value="Archive Excavation">Archive Excavation</option>
+                            <option value="Gastronomic Experimentation">Gastronomic Experimentation</option>
+                        </select>
+                    </label>
+                    <label>
+                        Crew manifest
+                        <textarea id="crew" placeholder="List crew names, biosignature tags, and support AIs..."></textarea>
+                    </label>
+                    <div class="toggle-row">
+                        <div class="toggle">
+                            <input type="checkbox" id="shared" />
+                            <label for="shared">Share telemetry with allied crews</label>
+                        </div>
+                        <div class="toggle">
+                            <input type="checkbox" id="reduced-motion" />
+                            <label for="reduced-motion">Optimise visuals for reduced motion</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-content" data-step="modules">
+                    <p style="margin:0;color:var(--muted);line-height:1.6;">Select mission modules. Resource costs and timeline slots update instantly.</p>
+                    <div class="module-grid" id="module-grid"></div>
+                </div>
+
+                <div class="step-content" data-step="schedule">
+                    <div class="inline">
+                        <label>
+                            Duration (hours)
+                            <input type="range" id="duration" min="6" max="120" step="2" value="36" />
+                            <span id="duration-label" style="font-family:var(--mono);font-size:0.8rem;">36 hours</span>
+                        </label>
+                        <label>
+                            Start window
+                            <select id="start-window">
+                                <option value="Aurora Dawn">Aurora Dawn</option>
+                                <option value="Nebula Noon">Nebula Noon</option>
+                                <option value="Cosmic Dusk">Cosmic Dusk</option>
+                                <option value="Deep Night">Deep Night</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="inline">
+                        <label>
+                            Rest cadence (hrs on / hrs off)
+                            <input type="text" id="rest-cadence" value="6 / 2" />
+                        </label>
+                        <label>
+                            Supply payload (kg)
+                            <input type="number" id="payload" min="50" max="950" value="240" />
+                        </label>
+                    </div>
+                    <label>
+                        Mission intent
+                        <textarea id="intent" placeholder="Goals, artefact targets, research questions..."></textarea>
+                    </label>
+                    <canvas id="timeline" role="img" aria-label="Mission timeline visualisation"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section class="summary" aria-live="polite">
+            <div class="summary__grid" id="summary-grid">
+                <!-- Populated by JS -->
+            </div>
+            <div class="summary__notes" id="summary-notes"></div>
+            <div class="actions">
+                <button class="button" type="button" id="save-plan">Save Plan</button>
+                <button class="button" type="button" id="export-plan">Export JSON</button>
+                <button class="button" type="button" id="share-plan">Copy Share Link</button>
+                <button class="button" type="button" id="print-plan">Print Brief</button>
+            </div>
+        </section>
+
+        <section class="history" aria-label="Saved mission plans">
+            <header style="display:flex;justify-content:space-between;align-items:center;gap:1rem;">
+                <h2 style="margin:0;font-size:1.1rem;letter-spacing:0.14em;text-transform:uppercase;">Mission history</h2>
+                <button class="button" type="button" id="clear-history" style="font-size:0.65rem;padding:0.55rem 1.1rem;">Clear</button>
+            </header>
+            <ul id="history-list">
+                <!-- history items -->
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        © <span id="year"></span> Aurora Odyssey mission planner. All telemetry synchronised.
+    </footer>
+
+    <script>
+        const callSignKey = "aurora-call-sign";
+        const planKey = "aurora-quick-plan";
+        const historyKey = "aurora-planner-history";
+
+        const state = {
+            callsign: "",
+            discipline: "Fractal Cartography",
+            crew: "",
+            shared: false,
+            reducedMotion: false,
+            modules: [],
+            duration: 36,
+            startWindow: "Aurora Dawn",
+            restCadence: "6 / 2",
+            payload: 240,
+            intent: "",
+        };
+
+        const modules = [
+            {
+                id: "nebula-drift",
+                name: "Nebula Drift Mapping",
+                description: "Long-form fractal cartography with depth sampling and holographic exports.",
+                energy: 24,
+                hours: 8,
+                collaboration: "Pairs well with Synesthetic Lab",
+            },
+            {
+                id: "quantum-chorus",
+                name: "Quantum Chorus Calibration",
+                description: "Tune harmonic field oscillators to align with remote crews for shared performances.",
+                energy: 32,
+                hours: 6,
+                collaboration: "Requires Harmonic Field access",
+            },
+            {
+                id: "aurora-gastronomy",
+                name: "Aurora Gastronomy Lab",
+                description: "Prototype edible nebulae with molecular gastronomy rigs and spectral ingredients.",
+                energy: 18,
+                hours: 5,
+                collaboration: "Syncs with Synesthetic Lab palettes",
+            },
+            {
+                id: "archive-dive",
+                name: "Archive Dive Consultation",
+                description: "Decode historical missions, extract data relics, and annotate knowledge archive threads.",
+                energy: 12,
+                hours: 4,
+                collaboration: "Pairs with Knowledge Archive",
+            },
+            {
+                id: "gravity-sketch",
+                name: "Gravity Sketch Corridors",
+                description: "Sculpt zero-g habitats while receiving live stability feedback and luminous cues.",
+                energy: 28,
+                hours: 7,
+                collaboration: "Requires Mission Control oversight",
+            },
+        ];
+
+        const elements = {
+            steps: document.getElementById("steps"),
+            stepPanels: document.getElementById("step-panels"),
+            callsign: document.getElementById("callsign"),
+            discipline: document.getElementById("discipline"),
+            crew: document.getElementById("crew"),
+            shared: document.getElementById("shared"),
+            reducedMotion: document.getElementById("reduced-motion"),
+            moduleGrid: document.getElementById("module-grid"),
+            duration: document.getElementById("duration"),
+            durationLabel: document.getElementById("duration-label"),
+            startWindow: document.getElementById("start-window"),
+            restCadence: document.getElementById("rest-cadence"),
+            payload: document.getElementById("payload"),
+            intent: document.getElementById("intent"),
+            summaryGrid: document.getElementById("summary-grid"),
+            summaryNotes: document.getElementById("summary-notes"),
+            savePlan: document.getElementById("save-plan"),
+            exportPlan: document.getElementById("export-plan"),
+            sharePlan: document.getElementById("share-plan"),
+            printPlan: document.getElementById("print-plan"),
+            historyList: document.getElementById("history-list"),
+            clearHistory: document.getElementById("clear-history"),
+            timeline: document.getElementById("timeline"),
+        };
+
+        function setState(updates) {
+            Object.assign(state, updates);
+            renderSummary();
+            drawTimeline();
+        }
+
+        function initSteps() {
+            elements.steps.querySelectorAll(".steps__item").forEach((button) => {
+                button.addEventListener("click", () => {
+                    const step = button.dataset.step;
+                    elements.steps.querySelectorAll(".steps__item").forEach((item) => item.classList.toggle("active", item === button));
+                    elements.stepPanels.querySelectorAll(".step-content").forEach((panel) => panel.classList.toggle("active", panel.dataset.step === step));
+                });
+            });
+        }
+
+        function renderModules() {
+            elements.moduleGrid.innerHTML = modules
+                .map(
+                    (module) => `
+                        <article class="module-card">
+                            <header>
+                                <h3>${module.name}</h3>
+                                <label style="margin:0;letter-spacing:0.12em;text-transform:uppercase;font-size:0.7rem;display:inline-flex;align-items:center;gap:0.5rem;">
+                                    <input type="checkbox" data-module="${module.id}" ${state.modules.includes(module.id) ? "checked" : ""} />
+                                    Engage
+                                </label>
+                            </header>
+                            <p>${module.description}</p>
+                            <footer>
+                                <span>${module.energy} energy</span>
+                                <span>${module.hours} hrs</span>
+                                <span>${module.collaboration}</span>
+                            </footer>
+                        </article>
+                    `
+                )
+                .join("");
+            elements.moduleGrid.querySelectorAll("input[type='checkbox']").forEach((input) => {
+                input.addEventListener("change", () => {
+                    const id = input.dataset.module;
+                    if (input.checked) {
+                        if (!state.modules.includes(id)) state.modules.push(id);
+                    } else {
+                        state.modules = state.modules.filter((moduleId) => moduleId !== id);
+                    }
+                    setState({ modules: state.modules });
+                });
+            });
+        }
+
+        function renderSummary() {
+            const callsign = state.callsign || "Unnamed Explorer";
+            const selectedModules = state.modules.map((id) => modules.find((module) => module.id === id));
+            const totalEnergy = selectedModules.reduce((sum, module) => sum + (module?.energy || 0), 0);
+            const totalHours = selectedModules.reduce((sum, module) => sum + (module?.hours || 0), 0);
+            const crewCount = state.crew ? state.crew.split(/\n+/).filter(Boolean).length : 0;
+
+            elements.summaryGrid.innerHTML = `
+                <div class="summary__item">
+                    <strong>Callsign</strong>
+                    <span>${callsign}</span>
+                </div>
+                <div class="summary__item">
+                    <strong>Discipline</strong>
+                    <span>${state.discipline}</span>
+                </div>
+                <div class="summary__item">
+                    <strong>Modules</strong>
+                    <span>${state.modules.length || 0} selected</span>
+                </div>
+                <div class="summary__item">
+                    <strong>Energy budget</strong>
+                    <span>${totalEnergy} units</span>
+                </div>
+                <div class="summary__item">
+                    <strong>Module hours</strong>
+                    <span>${totalHours} hrs</span>
+                </div>
+                <div class="summary__item">
+                    <strong>Mission duration</strong>
+                    <span>${state.duration} hrs</span>
+                </div>
+                <div class="summary__item">
+                    <strong>Crew entries</strong>
+                    <span>${crewCount}</span>
+                </div>
+                <div class="summary__item">
+                    <strong>Payload</strong>
+                    <span>${state.payload} kg</span>
+                </div>
+            `;
+
+            const shareStatus = state.shared ? "Telemetry shared with allied crews." : "Telemetry kept private within mission control.";
+            const motionStatus = state.reducedMotion ? "Visuals constrained for reduced motion." : "Full-spectrum visuals enabled.";
+            const moduleSummary = selectedModules.length
+                ? selectedModules.map((module) => module?.name).join(", ")
+                : "No modules selected yet. Consider adding at least one to balance the timeline.";
+            elements.summaryNotes.innerHTML = `
+                <strong style="display:block;font-size:0.75rem;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.6rem;color:var(--accent-strong);">Mission Notes</strong>
+                ${shareStatus} ${motionStatus}<br />
+                <strong style="font-size:0.75rem;letter-spacing:0.18em;text-transform:uppercase;margin:0.6rem 0 0.3rem;display:block;color:var(--accent);">Modules</strong>
+                ${moduleSummary}<br />
+                <strong style="font-size:0.75rem;letter-spacing:0.18em;text-transform:uppercase;margin:0.6rem 0 0.3rem;display:block;color:var(--accent);">Intent</strong>
+                ${state.intent || "Add mission intent notes to broadcast goals across the lattice."}
+            `;
+        }
+
+        function drawTimeline() {
+            const ctx = elements.timeline.getContext("2d");
+            const width = elements.timeline.clientWidth;
+            const height = elements.timeline.clientHeight;
+            const dpr = window.devicePixelRatio || 1;
+            elements.timeline.width = width * dpr;
+            elements.timeline.height = height * dpr;
+            ctx.scale(dpr, dpr);
+            ctx.clearRect(0, 0, width, height);
+
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+            ctx.lineWidth = 1;
+            const gridLines = 6;
+            for (let i = 1; i < gridLines; i++) {
+                const y = (height / gridLines) * i;
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+
+            const selectedModules = state.modules.map((id) => modules.find((module) => module.id === id)).filter(Boolean);
+            const totalModuleHours = selectedModules.reduce((sum, module) => sum + module.hours, 0) || 1;
+            const palette = ["#74f7ff", "#ffe483", "#ff7ae6", "#88ffb7", "#ffd1a9"];
+            let cursor = 0;
+            selectedModules.forEach((module, index) => {
+                const segmentWidth = (module.hours / totalModuleHours) * width;
+                ctx.fillStyle = palette[index % palette.length];
+                ctx.globalAlpha = 0.75;
+                ctx.fillRect(cursor, height * 0.2, segmentWidth, height * 0.6);
+                ctx.globalAlpha = 1;
+                ctx.font = "12px var(--mono)";
+                ctx.fillStyle = "#01040f";
+                ctx.fillText(module.name, cursor + 12, height * 0.2 + 20);
+                cursor += segmentWidth;
+            });
+
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(12, height - 18);
+            ctx.lineTo(width - 12, height - 18);
+            ctx.stroke();
+
+            ctx.font = "11px var(--mono)";
+            ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
+            ctx.fillText(`Duration: ${state.duration} hrs`, 12, height - 24);
+            ctx.fillText(`Start: ${state.startWindow}`, width / 2 - 40, height - 24);
+            ctx.fillText(`Rest: ${state.restCadence}`, width - 140, height - 24);
+        }
+
+        function downloadPlan(plan) {
+            const blob = new Blob([JSON.stringify(plan, null, 2)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `${(plan.callsign || "mission").replace(/\s+/g, "-")}-plan.json`;
+            document.body.appendChild(link);
+            link.click();
+            setTimeout(() => {
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }, 0);
+        }
+
+        function copyShareLink(plan) {
+            const encoded = encodeURIComponent(btoa(JSON.stringify(plan)));
+            const link = `${window.location.origin}${window.location.pathname}?plan=${encoded}`;
+            navigator.clipboard.writeText(link).then(() => {
+                elements.sharePlan.textContent = "Link Copied";
+                setTimeout(() => (elements.sharePlan.textContent = "Copy Share Link"), 1600);
+            }).catch(() => {
+                elements.sharePlan.textContent = "Copy Failed";
+                setTimeout(() => (elements.sharePlan.textContent = "Copy Share Link"), 1600);
+            });
+        }
+
+        function savePlan() {
+            const plan = { ...state, timestamp: Date.now() };
+            const history = getHistory();
+            history.unshift(plan);
+            localStorage.setItem(historyKey, JSON.stringify(history.slice(0, 10)));
+            renderHistory();
+        }
+
+        function getHistory() {
+            const stored = localStorage.getItem(historyKey);
+            if (!stored) return [];
+            try {
+                return JSON.parse(stored);
+            } catch (error) {
+                console.warn("Failed to parse history", error);
+                return [];
+            }
+        }
+
+        function renderHistory() {
+            const history = getHistory();
+            elements.historyList.innerHTML = history.length
+                ? history
+                      .map((entry, index) => {
+                          const date = new Date(entry.timestamp).toLocaleString();
+                          return `
+                              <li>
+                                  <header>
+                                      <h4>${entry.callsign || "Unnamed Explorer"}</h4>
+                                      <div style="display:flex;gap:0.5rem;">
+                                          <button data-history="${index}" data-action="load">Load</button>
+                                          <button data-history="${index}" data-action="delete">Delete</button>
+                                      </div>
+                                  </header>
+                                  <p>${entry.discipline} • ${entry.modules.length} modules • ${entry.duration} hrs • Saved ${date}</p>
+                              </li>
+                          `;
+                      })
+                      .join("")
+                : '<li style="text-align:center;color:var(--muted);letter-spacing:0.08em;">No saved missions yet. Save a plan to track your odyssey.</li>';
+
+            elements.historyList.querySelectorAll("button").forEach((button) => {
+                button.addEventListener("click", () => {
+                    const index = Number(button.dataset.history);
+                    const action = button.dataset.action;
+                    const history = getHistory();
+                    if (action === "load") {
+                        const plan = history[index];
+                        if (plan) applyPlan(plan);
+                    } else if (action === "delete") {
+                        history.splice(index, 1);
+                        localStorage.setItem(historyKey, JSON.stringify(history));
+                        renderHistory();
+                    }
+                });
+            });
+        }
+
+        function applyPlan(plan) {
+            Object.assign(state, {
+                callsign: plan.callsign || "",
+                discipline: plan.discipline || "Fractal Cartography",
+                crew: plan.crew || "",
+                shared: Boolean(plan.shared),
+                reducedMotion: Boolean(plan.reducedMotion),
+                modules: Array.isArray(plan.modules) ? plan.modules : [],
+                duration: Number(plan.duration) || 36,
+                startWindow: plan.startWindow || "Aurora Dawn",
+                restCadence: plan.restCadence || "6 / 2",
+                payload: Number(plan.payload) || 240,
+                intent: plan.intent || "",
+            });
+
+            elements.callsign.value = state.callsign;
+            elements.discipline.value = state.discipline;
+            elements.crew.value = state.crew;
+            elements.shared.checked = state.shared;
+            elements.reducedMotion.checked = state.reducedMotion;
+            elements.duration.value = state.duration;
+            elements.durationLabel.textContent = `${state.duration} hours`;
+            elements.startWindow.value = state.startWindow;
+            elements.restCadence.value = state.restCadence;
+            elements.payload.value = state.payload;
+            elements.intent.value = state.intent;
+
+            renderModules();
+            setState({ ...state });
+        }
+
+        function loadFromQuery() {
+            const params = new URLSearchParams(window.location.search);
+            if (!params.has("plan")) return;
+            try {
+                const decoded = JSON.parse(atob(decodeURIComponent(params.get("plan"))));
+                applyPlan(decoded);
+            } catch (error) {
+                console.warn("Failed to parse plan from query", error);
+            }
+        }
+
+        function syncFromStorage() {
+            const storedCallsign = localStorage.getItem(callSignKey);
+            if (storedCallsign) {
+                state.callsign = storedCallsign;
+                elements.callsign.value = storedCallsign;
+            }
+            const quickPlan = localStorage.getItem(planKey);
+            if (quickPlan) {
+                try {
+                    const parsed = JSON.parse(quickPlan);
+                    state.discipline = parsed.focus || state.discipline;
+                    state.modules = parsed.modules || state.modules;
+                    state.duration = parsed.duration || state.duration;
+                    state.intent = parsed.notes || state.intent;
+                    elements.discipline.value = state.discipline;
+                    elements.duration.value = state.duration;
+                    elements.durationLabel.textContent = `${state.duration} hours`;
+                    elements.intent.value = state.intent;
+                } catch (error) {
+                    console.warn("Failed to read quick plan", error);
+                }
+            }
+        }
+
+        function initInputs() {
+            elements.callsign.addEventListener("input", (event) => setState({ callsign: event.target.value.toUpperCase() }));
+            elements.discipline.addEventListener("change", (event) => setState({ discipline: event.target.value }));
+            elements.crew.addEventListener("input", (event) => setState({ crew: event.target.value }));
+            elements.shared.addEventListener("change", (event) => setState({ shared: event.target.checked }));
+            elements.reducedMotion.addEventListener("change", (event) => setState({ reducedMotion: event.target.checked }));
+            elements.duration.addEventListener("input", (event) => {
+                const value = Number(event.target.value);
+                elements.durationLabel.textContent = `${value} hours`;
+                setState({ duration: value });
+            });
+            elements.startWindow.addEventListener("change", (event) => setState({ startWindow: event.target.value }));
+            elements.restCadence.addEventListener("input", (event) => setState({ restCadence: event.target.value }));
+            elements.payload.addEventListener("input", (event) => setState({ payload: Number(event.target.value) }));
+            elements.intent.addEventListener("input", (event) => setState({ intent: event.target.value }));
+        }
+
+        function initActions() {
+            elements.savePlan.addEventListener("click", () => {
+                savePlan();
+                elements.savePlan.textContent = "Saved";
+                setTimeout(() => (elements.savePlan.textContent = "Save Plan"), 1600);
+            });
+            elements.exportPlan.addEventListener("click", () => downloadPlan({ ...state }));
+            elements.sharePlan.addEventListener("click", () => copyShareLink({ ...state }));
+            elements.printPlan.addEventListener("click", () => window.print());
+            elements.clearHistory.addEventListener("click", () => {
+                localStorage.removeItem(historyKey);
+                renderHistory();
+            });
+        }
+
+        function init() {
+            renderModules();
+            renderSummary();
+            drawTimeline();
+            initSteps();
+            initInputs();
+            initActions();
+            renderHistory();
+            syncFromStorage();
+            loadFromQuery();
+            renderModules();
+            renderSummary();
+            drawTimeline();
+            document.getElementById("year").textContent = new Date().getFullYear();
+        }
+
+        window.addEventListener("resize", drawTimeline);
+        init();
+    </script>
+</body>
+</html>

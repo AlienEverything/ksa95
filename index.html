@@ -1,902 +1,1292 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اليوم الوطني السعودي 95</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Aurora Odyssey mission control connects explorers to fractal, harmonic, synesthetic, planning, and archive labs with interactive telemetry." />
+    <title>Aurora Odyssey • Mission Control</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
+        :root {
+            --bg-top: #030314;
+            --bg-middle: #050b2c;
+            --bg-bottom: #00040b;
+            --accent: #74f7ff;
+            --accent-soft: rgba(116, 247, 255, 0.3);
+            --accent-strong: #ffe483;
+            --text: rgba(255, 255, 255, 0.92);
+            --muted: rgba(255, 255, 255, 0.68);
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-strong: rgba(8, 16, 48, 0.85);
+            --shadow: 0 25px 60px rgba(3, 5, 25, 0.35);
+            --max-width: min(1120px, 92vw);
+            --mono: "IBM Plex Mono", monospace;
+            --sans: "Space Grotesk", system-ui, sans-serif;
+        }
+
+        *, *::before, *::after {
             box-sizing: border-box;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e7e34, #ffffff, #1e7e34);
-            background-size: 400% 400%;
-            animation: gradientShift 8s ease-in-out infinite;
-            overflow-x: hidden;
+            margin: 0;
+            font-family: var(--sans);
+            background: radial-gradient(circle at 15% 20%, rgba(116, 247, 255, 0.3), transparent 55%),
+                        radial-gradient(circle at 85% 30%, rgba(255, 228, 131, 0.2), transparent 60%),
+                        linear-gradient(180deg, var(--bg-top) 0%, var(--bg-middle) 45%, var(--bg-bottom) 100%);
+            color: var(--text);
+            min-height: 100vh;
         }
 
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        a {
+            color: inherit;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            text-align: center;
-            padding: 40px 0;
-            position: relative;
-        }
-
-        .ksa-flag {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 160px;
-            height: 100px;
-            background: #1e7e34;
-            border-radius: 10px;
-            animation: wave 3s ease-in-out infinite;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-weight: bold;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .ksa-flag::before {
-            content: 'لا إله إلا الله محمد رسول الله';
-            font-size: 10px;
-            margin-bottom: 5px;
-            text-align: center;
-        }
-
-        .ksa-flag::after {
-            content: '⚔️';
-            font-size: 20px;
-        }
-
-        @keyframes wave {
-            0%, 100% { transform: translateX(-50%) rotate(0deg); }
-            25% { transform: translateX(-50%) rotate(3deg); }
-            75% { transform: translateX(-50%) rotate(-3deg); }
-        }
-
-        h1 {
-            font-size: 3.5em;
-            color: #1e7e34;
-            margin-top: 120px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            animation: titleGlow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes titleGlow {
-            from { text-shadow: 2px 2px 4px rgba(30, 126, 52, 0.3); }
-            to { text-shadow: 2px 2px 20px rgba(30, 126, 52, 0.8); }
-        }
-
-        .subtitle {
-            font-size: 1.8em;
-            color: #666;
-            margin: 20px 0;
-            font-weight: 300;
-        }
-
-        .lang-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: #1e7e34;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(30, 126, 52, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        .lang-toggle:hover {
-            background: #155724;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(30, 126, 52, 0.6);
-        }
-
-
-
-        .national-day-info {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 20px;
-            margin: 40px 0;
-            text-align: center;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .national-day-info h2 {
-            color: #1e7e34;
-            font-size: 2.2em;
-            margin-bottom: 20px;
-        }
-
-        .national-day-info p {
-            font-size: 1.1em;
-            line-height: 1.8;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .countdown-container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 20px;
-            margin: 40px 0;
-            text-align: center;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .countdown {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .countdown-item {
-            background: linear-gradient(135deg, #1e7e34, #155724);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            min-width: 80px;
-            box-shadow: 0 8px 25px rgba(30, 126, 52, 0.3);
-            transform: perspective(1000px) rotateY(0deg);
-            transition: all 0.3s ease;
-        }
-
-        .countdown-item:hover {
-            transform: perspective(1000px) rotateY(10deg) translateY(-5px);
-        }
-
-        .countdown-number {
-            font-size: 2.5em;
-            font-weight: bold;
+        header, main, footer {
             display: block;
         }
 
-        .countdown-label {
-            font-size: 0.9em;
-            opacity: 0.9;
-        }
-
-        .celebration-overlay {
-            position: fixed;
+        .nav {
+            position: sticky;
             top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
-            justify-content: center;
+            z-index: 20;
+            background: rgba(2, 5, 20, 0.85);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .nav__inner {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 1.1rem clamp(1.25rem, 4vw, 3.5rem);
+            display: flex;
             align-items: center;
-            z-index: 10000;
-            flex-direction: column;
+            justify-content: space-between;
+            gap: 1.5rem;
         }
 
-        .celebration-content {
-            text-align: center;
-            color: white;
-            animation: celebrationPulse 2s ease-in-out infinite;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            text-decoration: none;
+            font-family: var(--mono);
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            font-size: 0.82rem;
         }
 
-        .celebration-content h1 {
-            font-size: 4em;
-            margin-bottom: 20px;
-            color: #ffd700;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        .brand__badge {
+            width: 2.6rem;
+            height: 2.6rem;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, #74f7ff, #8c66ff);
+            color: #020516;
+            font-weight: 700;
         }
 
-        .celebration-content p {
-            font-size: 1.5em;
-            margin-bottom: 30px;
+        .nav__links {
+            display: flex;
+            gap: clamp(1rem, 2.5vw, 2.5rem);
+            align-items: center;
         }
 
-        @keyframes celebrationPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        .nav__link {
+            text-decoration: none;
+            font-size: 0.72rem;
+            letter-spacing: 0.26em;
+            color: var(--muted);
+            transition: color 0.3s ease, transform 0.3s ease;
         }
 
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            pointer-events: none;
-            z-index: 10001;
+        .nav__link:hover,
+        .nav__link:focus-visible {
+            color: var(--accent-strong);
+            transform: translateY(-2px);
         }
 
-        @keyframes confettiFall {
-            0% {
-                transform: translateY(-100vh) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotate(720deg);
-                opacity: 0;
-            }
+        .primary-button {
+            border: none;
+            border-radius: 999px;
+            padding: 0.75rem 1.75rem;
+            background: linear-gradient(135deg, #74f7ff, #ffe483);
+            color: #020516;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.28em;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 12px 32px rgba(116, 247, 255, 0.25);
         }
 
-        .content-grid {
+        .primary-button svg {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .primary-button:hover,
+        .primary-button:focus-visible {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 40px rgba(116, 247, 255, 0.35);
+        }
+
+        .hero {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: clamp(4rem, 10vw, 7rem) clamp(1.5rem, 4vw, 3.5rem) 3.5rem;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 40px 0;
+            gap: clamp(2rem, 6vw, 4rem);
+            align-items: center;
+        }
+
+        .hero__headline h1 {
+            font-size: clamp(2.7rem, 5.4vw, 4.8rem);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .hero__headline p {
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        .hero__cta {
+            margin-top: 2.75rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .hero__module {
+            position: relative;
+            border-radius: 32px;
+            padding: clamp(1.8rem, 4vw, 2.6rem);
+            background: linear-gradient(150deg, rgba(255, 255, 255, 0.08), rgba(8, 16, 48, 0.2));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .hero__module::before {
+            content: "";
+            position: absolute;
+            inset: -35% 10% 55% -30%;
+            background: radial-gradient(circle, rgba(116, 247, 255, 0.45), transparent 55%);
+            animation: float 16s linear infinite;
+        }
+
+        .hero__module h2 {
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .hero__module p,
+        .hero__module ul {
+            position: relative;
+            color: var(--muted);
+        }
+
+        .hero__module ul {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0 0;
+            display: grid;
+            gap: 0.65rem;
+        }
+
+        .hero__module li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            letter-spacing: 0.12em;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+        }
+
+        .hero__module li::before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 12px rgba(116, 247, 255, 0.9);
+        }
+
+        .section {
+            padding: clamp(3rem, 6vw, 5.5rem) clamp(1.5rem, 4vw, 3.5rem);
+        }
+
+        .section__inner {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: grid;
+            gap: 2.5rem;
+        }
+
+        .section__header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .section__title {
+            max-width: 520px;
+        }
+
+        .section__title h2 {
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 0.75rem;
+        }
+
+        .section__title p {
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .tag {
+            padding: 0.35rem 0.9rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.06);
+            font-size: 0.72rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .lab-grid {
+            display: grid;
+            gap: clamp(1.5rem, 3vw, 2.5rem);
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            padding: 2rem;
+            border-radius: 28px;
+            background: linear-gradient(160deg, rgba(13, 16, 60, 0.95), rgba(6, 12, 28, 0.7));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: var(--shadow);
             position: relative;
             overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            display: grid;
+            gap: 1rem;
         }
 
-        .card::before {
-            content: '';
+        .card::after {
+            content: "";
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #1e7e34, #28a745);
-            transition: left 0.5s ease;
-        }
-
-        .card:hover::before {
-            left: 0;
+            inset: 0;
+            background: radial-gradient(circle at 20% 20%, rgba(116, 247, 255, 0.35), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
         .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 25px 60px rgba(116, 247, 255, 0.25);
+        }
+
+        .card:hover::after {
+            opacity: 1;
         }
 
         .card h3 {
-            color: #1e7e34;
-            margin-bottom: 15px;
-            font-size: 1.5em;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            margin: 0 0 0.5rem;
         }
 
-        .card p, .card li {
+        .card p {
+            color: var(--muted);
+            margin: 0;
             line-height: 1.6;
-            color: #333;
         }
 
-        .official-links {
+        .card footer {
+            margin-top: 1.5rem;
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent);
         }
 
-        .link-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #1e7e34, #28a745);
-            color: white;
-            padding: 15px 25px;
+        .card a {
             text-decoration: none;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            text-align: center;
-            font-weight: 500;
+        }
+
+        .planner {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: clamp(1.75rem, 4vw, 3rem);
+        }
+
+        .planner__form,
+        .planner__summary {
+            border-radius: 28px;
+            padding: clamp(1.8rem, 4vw, 2.5rem);
+            background: linear-gradient(155deg, rgba(255, 255, 255, 0.08), rgba(10, 18, 46, 0.16));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(22px);
+            box-shadow: var(--shadow);
             position: relative;
             overflow: hidden;
         }
 
-        .link-button::before {
-            content: '';
+        .planner__form::before,
+        .planner__summary::before {
+            content: "";
+            position: absolute;
+            inset: -40% 10% 60% -30%;
+            background: radial-gradient(circle, rgba(255, 228, 131, 0.3), transparent 60%);
+            opacity: 0.6;
+        }
+
+        .planner__summary::before {
+            inset: -50% 40% 50% -10%;
+            background: radial-gradient(circle, rgba(116, 247, 255, 0.35), transparent 65%);
+        }
+
+        .planner__form > *,
+        .planner__summary > * {
+            position: relative;
+        }
+
+        .planner label {
+            display: grid;
+            gap: 0.45rem;
+            font-size: 0.78rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-bottom: 1.35rem;
+        }
+
+        .planner input,
+        .planner select,
+        .planner textarea {
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 0.85rem 1rem;
+            background: rgba(3, 8, 24, 0.65);
+            color: var(--text);
+            font-family: var(--sans);
+        }
+
+        .planner textarea {
+            min-height: 92px;
+            resize: vertical;
+        }
+
+        .checkboxes,
+        .radio-grid {
+            display: grid;
+            gap: 0.75rem;
+            margin-top: 0.6rem;
+        }
+
+        .option {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.75rem 0.9rem;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .option span {
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+        }
+
+        .planner__summary h3 {
+            margin-top: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .summary-grid {
+            display: grid;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .summary-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 0.9rem 1.1rem;
+            display: grid;
+            gap: 0.35rem;
+        }
+
+        .summary-item strong {
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            color: var(--muted);
+        }
+
+        .summary-item span {
+            font-size: 1rem;
+            letter-spacing: 0.04em;
+        }
+
+        .summary-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .ghost-button {
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            padding: 0.6rem 1.4rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .ghost-button:hover,
+        .ghost-button:focus-visible {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+        }
+
+        .telemetry {
+            border-radius: 32px;
+            padding: clamp(1.8rem, 4vw, 2.5rem);
+            background: linear-gradient(170deg, rgba(12, 16, 50, 0.95), rgba(3, 8, 24, 0.75));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: var(--shadow);
+        }
+
+        .telemetry__grid {
+            display: grid;
+            gap: 1.2rem;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        }
+
+        .telemetry__item {
+            padding: 1.1rem 1.25rem;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.05);
+            display: grid;
+            gap: 0.35rem;
+        }
+
+        .telemetry__item strong {
+            font-family: var(--mono);
+            letter-spacing: 0.18em;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .telemetry__item span {
+            font-size: 1.4rem;
+            letter-spacing: 0.06em;
+        }
+
+        .telemetry canvas {
+            margin-top: 2rem;
+            width: 100%;
+            height: 200px;
+            display: block;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(2, 5, 20, 0.6);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: clamp(1rem, 4vw, 3rem);
+        }
+
+        .timeline::before {
+            content: "";
             position: absolute;
             top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.6s ease;
+            bottom: 0;
+            left: clamp(0.4rem, 1.5vw, 1.2rem);
+            width: 2px;
+            background: linear-gradient(to bottom, rgba(116, 247, 255, 0.8), rgba(255, 228, 131, 0.2));
         }
 
-        .link-button:hover::before {
-            left: 100%;
-        }
-
-        .link-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(30, 126, 52, 0.4);
-        }
-
-        .music-player {
-            background: #1e7e34;
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin: 15px 0;
-        }
-
-        .song-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 10px;
-            margin: 10px 0;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .song-item:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateX(5px);
-        }
-
-        .play-button {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #28a745;
-            border: none;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .play-button:hover {
-            background: #34ce57;
-            transform: scale(1.1);
-        }
-
-        .vision-2030 {
-            background: linear-gradient(135deg, #1e7e34, #0d5d1f);
-            color: white;
-            text-align: center;
-            padding: 50px 30px;
-            border-radius: 25px;
-            margin: 40px 0;
+        .timeline__event {
             position: relative;
-            overflow: hidden;
+            padding: 1.5rem;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            margin-bottom: 1.8rem;
+            box-shadow: var(--shadow);
         }
 
-        .vision-2030::before {
-            content: '';
+        .timeline__event::before {
+            content: attr(data-year);
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: repeating-conic-gradient(from 0deg, transparent, transparent 30deg, rgba(255,255,255,0.05) 30deg, rgba(255,255,255,0.05) 60deg);
-            animation: rotate 20s linear infinite;
+            left: calc(-1 * clamp(1.7rem, 3vw, 2.6rem));
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--glass-strong);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 50%;
+            width: clamp(3rem, 6vw, 4.2rem);
+            height: clamp(3rem, 6vw, 4.2rem);
+            display: grid;
+            place-items: center;
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
         }
 
-        @keyframes rotate {
+        .timeline__event h3 {
+            margin: 0 0 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .timeline__event p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        footer {
+            padding: 3rem 1.5rem 4rem;
+            background: rgba(3, 6, 22, 0.85);
+            backdrop-filter: blur(18px);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .footer__inner {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: grid;
+            gap: 2rem;
+        }
+
+        .footer__top {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer__top h4 {
+            margin: 0 0 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+        }
+
+        .footer__top p,
+        .footer__top li {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .footer__top ul {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .footer__top a {
+            text-decoration: none;
+            color: var(--muted);
+            transition: color 0.3s ease;
+        }
+
+        .footer__top a:hover,
+        .footer__top a:focus-visible {
+            color: var(--accent-strong);
+        }
+
+        .footer__bottom {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 1.5rem;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        @keyframes float {
+            from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
 
-        .vision-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .fireworks {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .firework {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            animation: firework 2s ease-out infinite;
-        }
-
-        @keyframes firework {
-            0% {
-                transform: translate(0, 0) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(var(--x), var(--y)) scale(0);
-                opacity: 0;
-            }
-        }
-
-        .footer {
-            text-align: center;
-            padding: 40px 0;
-            background: rgba(30, 126, 52, 0.1);
-            border-radius: 20px;
-            margin-top: 40px;
-        }
-
-        .made-by {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(30, 126, 52, 0.2);
-            font-size: 1.1em;
-            color: #666;
-            font-weight: 500;
-        }
-
-        .made-by .heart {
-            color: #28a745;
-            font-size: 1.2em;
-            animation: heartbeat 2s ease-in-out infinite;
-        }
-
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        [dir="ltr"] {
-            text-align: left;
-        }
-
-        [dir="rtl"] {
-            text-align: right;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5em;
-            }
-            
-            .countdown {
-                gap: 10px;
-            }
-            
-            .countdown-item {
-                min-width: 60px;
-                padding: 15px;
-            }
-            
-            .content-grid {
-                grid-template-columns: 1fr;
+        @media (max-width: 780px) {
+            .nav__links {
+                display: none;
             }
 
-            .celebration-content h1 {
-                font-size: 2.5em;
+            .timeline::before,
+            .timeline__event::before {
+                display: none;
             }
 
-
+            .timeline {
+                padding-left: 0;
+            }
         }
     </style>
 </head>
 <body>
-    <button class="lang-toggle" onclick="toggleLanguage()">English</button>
-    
-    <div class="fireworks" id="fireworks"></div>
-
-    <div class="celebration-overlay" id="celebrationOverlay">
-        <div class="celebration-content">
-            <h1 id="celebration-title">🎉 كل عام والمملكة بخير! 🎉</h1>
-            <p id="celebration-message">مبارك علينا اليوم الوطني السعودي الـ 95</p>
-            <button class="link-button" onclick="closeCelebration()" id="close-celebration">أغلق الاحتفال</button>
+    <nav class="nav">
+        <div class="nav__inner">
+            <a class="brand" href="#top">
+                <span class="brand__badge">AO</span>
+                <strong>Aurora Odyssey</strong>
+            </a>
+            <div class="nav__links" aria-label="Primary">
+                <a class="nav__link" href="#labs">Labs</a>
+                <a class="nav__link" href="#planner">Planner</a>
+                <a class="nav__link" href="#telemetry">Telemetry</a>
+                <a class="nav__link" href="#timeline">Timeline</a>
+                <a class="nav__link" href="mission-planner.html">Launch Planner</a>
+                <a class="nav__link" href="knowledge-archive.html">Archive</a>
+            </div>
+            <a class="primary-button" href="mission-planner.html">
+                Launch Mission
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14" />
+                    <path d="M13 5l7 7-7 7" />
+                </svg>
+            </a>
         </div>
-    </div>
+    </nav>
 
-    <div class="container">
-        <div class="header">
-            <div class="ksa-flag"></div>
-            <h1 id="main-title">اليوم الوطني السعودي 95</h1>
-            <p class="subtitle" id="subtitle">نحتفل بوطننا الحبيب</p>
-        </div>
-
-        <div class="national-day-info">
-            <h2 id="info-title">عن اليوم الوطني السعودي</h2>
-            <p id="info-text-1">يحتفل الشعب السعودي باليوم الوطني في 23 سبتمبر من كل عام، إحياءً لذكرى توحيد المملكة العربية السعودية على يد الملك المؤسس عبد العزيز بن عبد الرحمن آل سعود عام 1932م.</p>
-            <p id="info-text-2">هذا اليوم يمثل رمزاً للوحدة والفخر الوطني، حيث تتزين المدن والقرى بالأعلام الخضراء وتقام الفعاليات الثقافية والترفيهية في جميع أنحاء المملكة.</p>
-            <p id="info-text-3">في عام 2025، نحتفل بالذكرى الـ 95 لتأسيس المملكة، مستذكرين الإنجازات العظيمة التي حققتها بلادنا ونتطلع إلى مستقبل مشرق في ظل رؤية المملكة 2030.</p>
-        </div>
-
-        <div class="countdown-container">
-            <h2 id="countdown-title">العد التنازلي لليوم الوطني</h2>
-            <div class="countdown" id="countdown">
-                <div class="countdown-item">
-                    <span class="countdown-number" id="days">0</span>
-                    <span class="countdown-label" id="days-label">أيام</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number" id="hours">0</span>
-                    <span class="countdown-label" id="hours-label">ساعات</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number" id="minutes">0</span>
-                    <span class="countdown-label" id="minutes-label">دقائق</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number" id="seconds">0</span>
-                    <span class="countdown-label" id="seconds-label">ثواني</span>
-                </div>
+    <header class="hero" id="top">
+        <div class="hero__headline">
+            <h1>Command the Odyssey</h1>
+            <p>
+                Welcome to mission control. Synchronise fractal forges, orchestrate harmonic storms, compose synesthetic
+                suites, and draft expedition blueprints without leaving the console. Everything you chart here syncs across
+                the Aurora lattice via your personalised call sign.
+            </p>
+            <div class="hero__cta">
+                <button class="ghost-button" type="button" id="set-call-sign">
+                    Set Call Sign
+                </button>
+                <a class="ghost-button" href="knowledge-archive.html">Browse Archive</a>
             </div>
         </div>
+        <div class="hero__module" aria-live="polite">
+            <h2>Mission Pulse</h2>
+            <p>
+                Real-time sampling of explorers connected to Aurora Odyssey. Watch the lattice breathe as new expeditions are
+                scheduled and labs spin up for collaborative storms.
+            </p>
+            <ul id="mission-pulse">
+                <li>Calibrating pulse...</li>
+            </ul>
+        </div>
+    </header>
 
-        <div class="content-grid">
-            <div class="card">
-                <h3 id="official-title">الروابط الرسمية</h3>
-                <div class="official-links">
-                    <a href="https://www.spa.gov.sa" class="link-button" target="_blank" id="spa-link">وكالة الأنباء السعودية</a>
-                    <a href="https://www.my.gov.sa" class="link-button" target="_blank" id="gov-link">منصة مايز الحكومية</a>
-                    <a href="https://www.moc.gov.sa" class="link-button" target="_blank" id="culture-link">وزارة الثقافة</a>
-                    <a href="https://www.gea.gov.sa" class="link-button" target="_blank" id="entertainment-link">هيئة الترفيه</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3 id="music-title">أناشيد وطنية</h3>
-                <div class="music-player">
-                    <div class="song-item" onclick="playMusic('سلام-للملك')">
-                        <button class="play-button">▶</button>
-                        <span id="song1">سلام للملك</span>
+    <main>
+        <section class="section" id="labs">
+            <div class="section__inner">
+                <div class="section__header">
+                    <div class="section__title">
+                        <h2>Lab roster</h2>
+                        <p>
+                            Each portal unleashes a specialised control surface. Dive into generative geometry, particle
+                            symphonics, synesthetic instruments, procedural planning, or research archives tailored to your
+                            expedition focus.
+                        </p>
                     </div>
-                    <div class="song-item" onclick="playMusic('موطني-الحبيب')">
-                        <button class="play-button">▶</button>
-                        <span id="song2">موطني الحبيب</span>
-                    </div>
-                    <div class="song-item" onclick="playMusic('فوق-هام-السحب')">
-                        <button class="play-button">▶</button>
-                        <span id="song3">فوق هام السحب</span>
-                    </div>
-                    <div class="song-item" onclick="playMusic('نشيد-اليوم-الوطني-95')">
-                        <button class="play-button">▶</button>
-                        <span id="song4">نشيد اليوم الوطني 95</span>
+                    <div class="tags" aria-label="Lab traits">
+                        <span class="tag">Procedural</span>
+                        <span class="tag">Interactive</span>
+                        <span class="tag">Speculative</span>
+                        <span class="tag">Data-rich</span>
                     </div>
                 </div>
+                <div class="lab-grid">
+                    <article class="card">
+                        <h3>Superformula Forge</h3>
+                        <p>Warp Johan Gielis parameters, morph petal symmetries, snapshot constellations, and export fractal meshes.</p>
+                        <footer>
+                            <span>Canvas fractals</span>
+                            <a href="portal-fractal.html">Enter</a>
+                        </footer>
+                    </article>
+                    <article class="card">
+                        <h3>Harmonic Field</h3>
+                        <p>Shape magnetic attractors that govern particle swarms. Record presets and share harmonic recipes.</p>
+                        <footer>
+                            <span>Oscillator swarms</span>
+                            <a href="harmonic-field.html">Enter</a>
+                        </footer>
+                    </article>
+                    <article class="card">
+                        <h3>Synesthetic Lab</h3>
+                        <p>Trigger luminous chords, paint colour harmonies with audio spectra, and export loops for collaborators.</p>
+                        <footer>
+                            <span>Web Audio pads</span>
+                            <a href="synesthetic-lab.html">Enter</a>
+                        </footer>
+                    </article>
+                    <article class="card">
+                        <h3>Mission Planner</h3>
+                        <p>Design multi-phase itineraries, compute energy budgets, and generate exportable mission manifests.</p>
+                        <footer>
+                            <span>Wizard workflow</span>
+                            <a href="mission-planner.html">Enter</a>
+                        </footer>
+                    </article>
+                    <article class="card">
+                        <h3>Knowledge Archive</h3>
+                        <p>Search luminous dossiers, decode field notes, and replay epochal transmissions from prior odysseys.</p>
+                        <footer>
+                            <span>Research terminal</span>
+                            <a href="knowledge-archive.html">Enter</a>
+                        </footer>
+                    </article>
+                </div>
             </div>
+        </section>
 
-            <div class="card">
-                <h3 id="achievements-title">إنجازات المملكة</h3>
-                <ul id="achievements-list">
-                    <li>رؤية السعودية 2030</li>
-                    <li>نيوم - مدينة المستقبل</li>
-                    <li>القدية - عاصمة الترفيه</li>
-                    <li>البحر الأحمر - وجهة سياحية عالمية</li>
-                    <li>مشروع الرياض الخضراء</li>
-                </ul>
+        <section class="section" id="planner">
+            <div class="section__inner">
+                <div class="section__header">
+                    <div class="section__title">
+                        <h2>Express itinerary builder</h2>
+                        <p>
+                            Craft a mini-mission directly from mission control. Your selections sync to the full planner so you can
+                            refine them later or export a JSON manifest instantly.
+                        </p>
+                    </div>
+                    <div class="tags" aria-label="Planner traits">
+                        <span class="tag">Syncs automatically</span>
+                        <span class="tag">Downloadable</span>
+                        <span class="tag">Shareable</span>
+                    </div>
+                </div>
+                <div class="planner">
+                    <form class="planner__form" id="quick-planner">
+                        <label>
+                            Callsign
+                            <input type="text" name="callsign" placeholder="e.g. CELESTE-92" autocomplete="off" />
+                        </label>
+                        <label>
+                            Mission focus
+                            <select name="focus">
+                                <option value="Fractal Cartography">Fractal Cartography</option>
+                                <option value="Harmonic Analysis">Harmonic Analysis</option>
+                                <option value="Synesthetic Composition">Synesthetic Composition</option>
+                                <option value="Archive Excavation">Archive Excavation</option>
+                                <option value="Multi-Modal Expedition">Multi-Modal Expedition</option>
+                            </select>
+                        </label>
+                        <label>
+                            Expedition modules
+                            <div class="checkboxes">
+                                <div class="option">
+                                    <input type="checkbox" name="modules" value="Nebula Drift" />
+                                    <span>Nebula Drift Mapping</span>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" name="modules" value="Quantum Chorus" />
+                                    <span>Quantum Chorus Calibration</span>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" name="modules" value="Aurora Gastronomy" />
+                                    <span>Aurora Gastronomy Lab</span>
+                                </div>
+                                <div class="option">
+                                    <input type="checkbox" name="modules" value="Archive Dive" />
+                                    <span>Archive Dive Consultation</span>
+                                </div>
+                            </div>
+                        </label>
+                        <label>
+                            Duration (hours)
+                            <input type="number" name="duration" min="2" max="72" value="12" />
+                        </label>
+                        <label>
+                            Intent signals
+                            <textarea name="notes" placeholder="Highlights, collaborators, desired artefacts..."></textarea>
+                        </label>
+                    </form>
+                    <aside class="planner__summary" aria-live="polite">
+                        <h3>Mission preview</h3>
+                        <div class="summary-grid" id="summary-grid">
+                            <!-- populated by JS -->
+                        </div>
+                        <div class="summary-actions">
+                            <button class="ghost-button" type="button" id="download-manifest">Download Manifest</button>
+                            <button class="ghost-button" type="button" id="open-planner">Open Full Planner</button>
+                            <button class="ghost-button" type="button" id="copy-link">Copy Share Link</button>
+                        </div>
+                    </aside>
+                </div>
             </div>
+        </section>
 
-            <div class="card">
-                <h3 id="heritage-title">التراث السعودي</h3>
-                <p id="heritage-text">تتميز المملكة العربية السعودية بتراث عريق وثقافة أصيلة تمتد لآلاف السنين، من العمارة النجدية التقليدية إلى الحرف اليدوية والشعر النبطي والقهوة العربية.</p>
+        <section class="section" id="telemetry">
+            <div class="section__inner">
+                <div class="section__header">
+                    <div class="section__title">
+                        <h2>Live telemetry</h2>
+                        <p>
+                            Autonomous probes track the Aurora lattice every few seconds. Values pulse according to active
+                            explorers, energy budgets, and archive sync operations.
+                        </p>
+                    </div>
+                    <div class="tags" aria-label="Telemetry traits">
+                        <span class="tag">Realtime</span>
+                        <span class="tag">Canvas visual</span>
+                        <span class="tag">Synthetic data</span>
+                    </div>
+                </div>
+                <div class="telemetry">
+                    <div class="telemetry__grid" id="telemetry-grid" aria-live="polite">
+                        <!-- populated by JS -->
+                    </div>
+                    <canvas id="telemetry-chart" role="img" aria-label="Telemetry waves for energy, resonance, and archive sync"></canvas>
+                </div>
             </div>
+        </section>
 
-            <div class="card">
-                <h3 id="significance-title">أهمية اليوم الوطني</h3>
-                <p id="significance-text">اليوم الوطني السعودي ليس مجرد ذكرى تاريخية، بل هو يوم لتعزيز الهوية الوطنية والانتماء للوطن. يحتفل المواطنون والمقيمون بهذا اليوم من خلال رفع الأعلام وإقامة الفعاليات الشعبية والثقافية، مما يعكس روح الوحدة والفخر بالإنجازات الوطنية.</p>
+        <section class="section" id="timeline">
+            <div class="section__inner">
+                <div class="section__header">
+                    <div class="section__title">
+                        <h2>Odyssey timeline</h2>
+                        <p>
+                            Anchor your mission with milestone transmissions. Each entry is generated from the archive and
+                            updates with your call sign for immediate contextualisation.
+                        </p>
+                    </div>
+                    <div class="tags" aria-label="Timeline traits">
+                        <span class="tag">Dynamic copy</span>
+                        <span class="tag">Call sign aware</span>
+                        <span class="tag">Story beats</span>
+                    </div>
+                </div>
+                <div class="timeline" id="timeline-feed">
+                    <!-- timeline events inserted here -->
+                </div>
             </div>
+        </section>
+    </main>
 
-            <div class="card">
-                <h3 id="celebration-ways-title">طرق الاحتفال</h3>
-                <ul id="celebration-ways-list">
-                    <li>إقامة العروض الجوية والاستعراضات العسكرية</li>
-                    <li>تنظيم الفعاليات الثقافية والتراثية</li>
-                    <li>إضاءة المعالم الأثرية والحديثة باللون الأخضر</li>
-                    <li>إقامة الحفلات الموسيقية والعروض الفولكلورية</li>
-                    <li>المشاركة في الفعاليات المجتمعية والخيرية</li>
-                </ul>
+    <footer>
+        <div class="footer__inner">
+            <div class="footer__top">
+                <div>
+                    <h4>Aurora Odyssey</h4>
+                    <p>Designing luminous futures where art, science, food, and speculative storytelling converge.</p>
+                </div>
+                <div>
+                    <h4>Labs</h4>
+                    <ul>
+                        <li><a href="portal-fractal.html">Superformula Forge</a></li>
+                        <li><a href="harmonic-field.html">Harmonic Field</a></li>
+                        <li><a href="synesthetic-lab.html">Synesthetic Lab</a></li>
+                        <li><a href="mission-planner.html">Mission Planner</a></li>
+                        <li><a href="knowledge-archive.html">Knowledge Archive</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#planner">Express planner</a></li>
+                        <li><a href="#telemetry">Telemetry feed</a></li>
+                        <li><a href="#timeline">Odyssey timeline</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Coordinates</h4>
+                    <p>
+                        Lunar Outpost 8, Mare Serenitatis<br />
+                        Signal band: 917.42 • Frequency key: 0xA0DYS5EY
+                    </p>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <span>© <span id="year"></span> Aurora Odyssey. All cosmic rights reserved.</span>
+                <span id="callsign-footnote">Awaiting call sign synchronisation.</span>
             </div>
         </div>
-
-        <div class="vision-2030">
-            <div class="vision-content">
-                <h2 id="vision-title">رؤية السعودية 2030</h2>
-                <p id="vision-text">نحو مستقبل مشرق يقوم على التنمية المستدامة والابتكار والتطوير، لنجعل من المملكة نموذجاً رائداً في العالم</p>
-                <a href="https://www.vision2030.gov.sa" class="link-button" target="_blank" id="vision-link">اكتشف الرؤية</a>
-            </div>
-        </div>
-
-        <div class="footer">
-            <p id="footer-text">كل عام والمملكة العربية السعودية بخير وازدهار</p>
-            <p id="footer-year">1446 هـ - 2025 م</p>
-            <div class="made-by">Made with <span class="heart">💚</span> by: Alien/Hassan</div>
-        </div>
-    </div>
+    </footer>
 
     <script>
-        let isArabic = true;
-        
-        const translations = {
-            ar: {
-                mainTitle: 'اليوم الوطني السعودي 95',
-                subtitle: 'نحتفل بوطننا الحبيب',
-                infoTitle: 'عن اليوم الوطني السعودي',
-                infoText1: 'يحتفل الشعب السعودي باليوم الوطني في 23 سبتمبر من كل عام، إحياءً لذكرى توحيد المملكة العربية السعودية على يد الملك المؤسس عبد العزيز بن عبد الرحمن آل سعود عام 1932م.',
-                infoText2: 'هذا اليوم يمثل رمزاً للوحدة والفخر الوطني، حيث تتزين المدن والقرى بالأعلام الخضراء وتقام الفعاليات الثقافية والترفيهية في جميع أنحاء المملكة.',
-                infoText3: 'في عام 2025، نحتفل بالذكرى الـ 95 لتأسيس المملكة، مستذكرين الإنجازات العظيمة التي حققتها بلادنا ونتطلع إلى مستقبل مشرق في ظل رؤية المملكة 2030.',
-                countdownTitle: 'العد التنازلي لليوم الوطني',
-                daysLabel: 'أيام',
-                hoursLabel: 'ساعات',
-                minutesLabel: 'دقائق',
-                secondsLabel: 'ثواني',
-                officialTitle: 'الروابط الرسمية',
-                spaLink: 'وكالة الأنباء السعودية',
-                govLink: 'منصة مايز الحكومية',
-                cultureLink: 'وزارة الثقافة',
-                entertainmentLink: 'هيئة الترفيه',
-                musicTitle: 'أناشيد وطنية',
-                song1: 'سلام للملك',
-                song2: 'موطني الحبيب',
-                song3: 'فوق هام السحب',
-                song4: 'نشيد اليوم الوطني 95',
-                achievementsTitle: 'إنجازات المملكة',
-                heritageTitle: 'التراث السعودي',
-                heritageText: 'تتميز المملكة العربية السعودية بتراث عريق وثقافة أصيلة تمتد لآلاف السنين، من العمارة النجدية التقليدية إلى الحرف اليدوية والشعر النبطي والقهوة العربية.',
-                significanceTitle: 'أهمية اليوم الوطني',
-                significanceText: 'اليوم الوطني السعودي ليس مجرد ذكرى تاريخية، بل هو يوم لتعزيز الهوية الوطنية والانتماء للوطن. يحتفل المواطنون والمقيمون بهذا اليوم من خلال رفع الأعلام وإقامة الفعاليات الشعبية والثقافية، مما يعكس روح الوحدة والفخر بالإنجازات الوطنية.',
-                celebrationWaysTitle: 'طرق الاحتفال',
-                visionTitle: 'رؤية السعودية 2030',
-                visionText: 'نحو مستقبل مشرق يقوم على التنمية المستدامة والابتكار والتطوير، لنجعل من المملكة نموذجاً رائداً في العالم',
-                visionLink: 'اكتشف الرؤية',
-                footerText: 'كل عام والمملكة العربية السعودية بخير وازدهار',
-                footerYear: '1446 هـ - 2025 م',
-                celebrationTitle: '🎉 كل عام والمملكة بخير! 🎉',
-                celebrationMessage: 'مبارك علينا اليوم الوطني السعودي الـ 95',
-                closeCelebration: 'أغلق الاحتفال'
-            },
-            en: {
-                mainTitle: 'Saudi National Day 95',
-                subtitle: 'Celebrating Our Beloved Nation',
-                infoTitle: 'About Saudi National Day',
-                infoText1: 'The Saudi people celebrate National Day on September 23rd every year, commemorating the unification of the Kingdom of Saudi Arabia by the founding King Abdulaziz bin Abdulrahman Al Saud in 1932.',
-                infoText2: 'This day represents a symbol of unity and national pride, where cities and villages are decorated with green flags and cultural and entertainment events are held throughout the Kingdom.',
-                infoText3: 'In 2025, we celebrate the 95th anniversary of the Kingdom\'s founding, remembering the great achievements our country has accomplished and looking forward to a bright future under Saudi Vision 2030.',
-                countdownTitle: 'Countdown to National Day',
-                daysLabel: 'Days',
-                hoursLabel: 'Hours',
-                minutesLabel: 'Minutes',
-                secondsLabel: 'Seconds',
-                officialTitle: 'Official Links',
-                spaLink: 'Saudi Press Agency',
-                govLink: 'My.Gov.SA Platform',
-                cultureLink: 'Ministry of Culture',
-                entertainmentLink: 'Entertainment Authority',
-                musicTitle: 'National Songs',
-                song1: 'Salam Lil-Malik',
-                song2: 'My Beloved Homeland',
-                song3: 'Above the Clouds',
-                song4: 'National Day 95 Anthem',
-                achievementsTitle: 'Kingdom Achievements',
-                heritageTitle: 'Saudi Heritage',
-                heritageText: 'The Kingdom of Saudi Arabia is distinguished by its rich heritage and authentic culture spanning thousands of years, from traditional Najdi architecture to handicrafts, Nabati poetry, and Arabic coffee.',
-                significanceTitle: 'Significance of National Day',
-                significanceText: 'Saudi National Day is not just a historical anniversary, but a day to strengthen national identity and belonging to the homeland. Citizens and residents celebrate this day by raising flags and holding popular and cultural events, reflecting the spirit of unity and pride in national achievements.',
-                celebrationWaysTitle: 'Ways of Celebration',
-                visionTitle: 'Saudi Vision 2030',
-                visionText: 'Towards a bright future based on sustainable development, innovation, and progress, making the Kingdom a leading model in the world',
-                visionLink: 'Discover the Vision',
-                footerText: 'May the Kingdom of Saudi Arabia prosper and thrive every year',
-                footerYear: '1446 AH - 2025 AD',
-                celebrationTitle: '🎉 Happy National Day! 🎉',
-                celebrationMessage: 'Congratulations on Saudi National Day 95',
-                closeCelebration: 'Close Celebration'
-            }
-        };
+        const callSignKey = "aurora-call-sign";
+        const planKey = "aurora-quick-plan";
+        const quickPlanner = document.getElementById("quick-planner");
+        const summaryGrid = document.getElementById("summary-grid");
+        const downloadButton = document.getElementById("download-manifest");
+        const plannerButton = document.getElementById("open-planner");
+        const copyLinkButton = document.getElementById("copy-link");
+        const setCallSignButton = document.getElementById("set-call-sign");
+        const missionPulse = document.getElementById("mission-pulse");
+        const telemetryGrid = document.getElementById("telemetry-grid");
+        const telemetryChart = document.getElementById("telemetry-chart");
+        const timelineFeed = document.getElementById("timeline-feed");
+        const callsignFootnote = document.getElementById("callsign-footnote");
 
-        function toggleLanguage() {
-            isArabic = !isArabic;
-            const lang = isArabic ? 'ar' : 'en';
-            const dir = isArabic ? 'rtl' : 'ltr';
-            
-            document.documentElement.lang = lang;
-            document.documentElement.dir = dir;
-            document.querySelector('.lang-toggle').textContent = isArabic ? 'English' : 'العربية';
-            
-            updateContent();
-        }
-
-        function updateContent() {
-            const lang = isArabic ? 'ar' : 'en';
-            const t = translations[lang];
-            
-            document.getElementById('main-title').textContent = t.mainTitle;
-            document.getElementById('subtitle').textContent = t.subtitle;
-            document.getElementById('info-title').textContent = t.infoTitle;
-            document.getElementById('info-text-1').textContent = t.infoText1;
-            document.getElementById('info-text-2').textContent = t.infoText2;
-            document.getElementById('info-text-3').textContent = t.infoText3;
-            document.getElementById('countdown-title').textContent = t.countdownTitle;
-            document.getElementById('days-label').textContent = t.daysLabel;
-            document.getElementById('hours-label').textContent = t.hoursLabel;
-            document.getElementById('minutes-label').textContent = t.minutesLabel;
-            document.getElementById('seconds-label').textContent = t.secondsLabel;
-            document.getElementById('official-title').textContent = t.officialTitle;
-            document.getElementById('spa-link').textContent = t.spaLink;
-            document.getElementById('gov-link').textContent = t.govLink;
-            document.getElementById('culture-link').textContent = t.cultureLink;
-            document.getElementById('entertainment-link').textContent = t.entertainmentLink;
-            document.getElementById('music-title').textContent = t.musicTitle;
-            document.getElementById('song1').textContent = t.song1;
-            document.getElementById('song2').textContent = t.song2;
-            document.getElementById('song3').textContent = t.song3;
-            document.getElementById('song4').textContent = t.song4;
-            document.getElementById('achievements-title').textContent = t.achievementsTitle;
-            document.getElementById('heritage-title').textContent = t.heritageTitle;
-            document.getElementById('heritage-text').textContent = t.heritageText;
-            document.getElementById('significance-title').textContent = t.significanceTitle;
-            document.getElementById('significance-text').textContent = t.significanceText;
-            document.getElementById('celebration-ways-title').textContent = t.celebrationWaysTitle;
-            document.getElementById('vision-title').textContent = t.visionTitle;
-            document.getElementById('vision-text').textContent = t.visionText;
-            document.getElementById('vision-link').textContent = t.visionLink;
-            document.getElementById('footer-text').textContent = t.footerText;
-            document.getElementById('footer-year').textContent = t.footerYear;
-            document.getElementById('celebration-title').textContent = t.celebrationTitle;
-            document.getElementById('celebration-message').textContent = t.celebrationMessage;
-            document.getElementById('close-celebration').textContent = t.closeCelebration;
-            
-            if (!isArabic) {
-                const achievements = ['Saudi Vision 2030', 'NEOM - City of the Future', 'Qiddiya - Capital of Entertainment', 'Red Sea - Global Tourism Destination', 'Riyadh Green Project'];
-                const list = document.getElementById('achievements-list');
-                list.innerHTML = achievements.map(item => `<li>${item}</li>`).join('');
-                
-                const celebrationWays = ['Air shows and military parades', 'Cultural and heritage events organization', 'Illuminating landmarks in green color', 'Musical concerts and folkloric performances', 'Community and charity events participation'];
-                const celebrationList = document.getElementById('celebration-ways-list');
-                celebrationList.innerHTML = celebrationWays.map(item => `<li>${item}</li>`).join('');
-            } else {
-                const achievements = ['رؤية السعودية 2030', 'نيوم - مدينة المستقبل', 'القدية - عاصمة الترفيه', 'البحر الأحمر - وجهة سياحية عالمية', 'مشروع الرياض الخضراء'];
-                const list = document.getElementById('achievements-list');
-                list.innerHTML = achievements.map(item => `<li>${item}</li>`).join('');
-                
-                const celebrationWays = ['إقامة العروض الجوية والاستعراضات العسكرية', 'تنظيم الفعاليات الثقافية والتراثية', 'إضاءة المعالم الأثرية والحديثة باللون الأخضر', 'إقامة الحفلات الموسيقية والعروض الفولكلورية', 'المشاركة في الفعاليات المجتمعية والخيرية'];
-                const celebrationList = document.getElementById('celebration-ways-list');
-                celebrationList.innerHTML = celebrationWays.map(item => `<li>${item}</li>`).join('');
-            }
-        }
-
-        function updateCountdown() {
-            const nationalDay = new Date('2025-09-23T00:00:00+03:00');
-            const now = new Date();
-            const difference = nationalDay - now;
-
-            if (difference > 0) {
-                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-                document.getElementById('days').textContent = days;
-                document.getElementById('hours').textContent = hours;
-                document.getElementById('minutes').textContent = minutes;
-                document.getElementById('seconds').textContent = seconds;
-            } else {
-                triggerCelebration();
-                document.getElementById('countdown-title').textContent = isArabic ? 'كل عام وأنتم بخير!' : 'Happy National Day!';
-                document.getElementById('countdown').innerHTML = '<h2 style="color: #1e7e34; font-size: 3em;">🎉🇸🇦🎉</h2>';
-            }
-        }
-
-        function createFirework() {
-            const firework = document.createElement('div');
-            firework.className = 'firework';
-            firework.style.left = Math.random() * window.innerWidth + 'px';
-            firework.style.top = Math.random() * window.innerHeight + 'px';
-            firework.style.backgroundColor = ['#1e7e34', '#28a745', '#ffffff', '#ffd700'][Math.floor(Math.random() * 4)];
-            firework.style.setProperty('--x', (Math.random() - 0.5) * 200 + 'px');
-            firework.style.setProperty('--y', (Math.random() - 0.5) * 200 + 'px');
-            
-            document.getElementById('fireworks').appendChild(firework);
-            
-            setTimeout(() => {
-                firework.remove();
-            }, 2000);
-        }
-
-        function createConfetti() {
-            const colors = ['#1e7e34', '#28a745', '#ffd700', '#ffffff', '#ffed4a'];
-            const confettiContainer = document.body;
-            
-            for (let i = 0; i < 100; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.left = Math.random() * window.innerWidth + 'px';
-                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                confetti.style.animationDelay = Math.random() * 2 + 's';
-                confetti.style.animation = `confettiFall ${Math.random() * 3 + 2}s linear infinite`;
-                
-                confettiContainer.appendChild(confetti);
-                
-                setTimeout(() => {
-                    confetti.remove();
-                }, 5000);
-            }
-        }
-
-        function triggerCelebration() {
-            const overlay = document.getElementById('celebrationOverlay');
-            overlay.style.display = 'flex';
-            
-            createConfetti();
-            
-            for (let i = 0; i < 10; i++) {
-                setTimeout(() => {
-                    createFirework();
-                }, i * 300);
-            }
-            
-            setInterval(() => {
-                createConfetti();
-            }, 2000);
-        }
-
-        function closeCelebration() {
-            const overlay = document.getElementById('celebrationOverlay');
-            overlay.style.display = 'none';
-        }
-
-        function playMusic(songName) {
-            const youtubeUrls = {
-                'سلام-للملك': 'https://www.youtube.com/results?search_query=سلام+للملك+النشيد+الوطني+السعودي',
-                'موطني-الحبيب': 'https://www.youtube.com/results?search_query=موطني+الحبيب+نشيد+وطني+سعودي',
-                'فوق-هام-السحب': 'https://www.youtube.com/results?search_query=فوق+هام+السحب+نشيد+وطني+سعودي',
-                'نشيد-اليوم-الوطني-95': 'https://www.youtube.com/results?search_query=نشيد+اليوم+الوطني+السعودي+95'
+        function getFormData() {
+            const data = new FormData(quickPlanner);
+            const modules = data.getAll("modules");
+            return {
+                callsign: (data.get("callsign") || localStorage.getItem(callSignKey) || "Unnamed Explorer").trim(),
+                focus: data.get("focus"),
+                modules: modules.length ? modules : ["Nebula Drift"],
+                duration: Number(data.get("duration")) || 12,
+                notes: (data.get("notes") || "Synchronise with mission planner for detailed notes.").trim(),
             };
-            
-            window.open(youtubeUrls[songName] || 'https://www.youtube.com/results?search_query=أناشيد+وطنية+سعودية', '_blank');
         }
 
-        setInterval(updateCountdown, 1000);
-        setInterval(createFirework, 2000);
-        
-        updateCountdown();
-        updateContent();
+        function renderSummary() {
+            const { callsign, focus, modules, duration, notes } = getFormData();
+            const phases = modules.map((module, index) => {
+                return `${index + 1}. ${module}`;
+            }).join("<br />");
 
-        document.addEventListener('click', function(e) {
-            if (Math.random() > 0.7) {
-                createFirework();
+            summaryGrid.innerHTML = `
+                <div class="summary-item">
+                    <strong>Callsign</strong>
+                    <span>${callsign}</span>
+                </div>
+                <div class="summary-item">
+                    <strong>Mission focus</strong>
+                    <span>${focus}</span>
+                </div>
+                <div class="summary-item">
+                    <strong>Expedition timeline</strong>
+                    <span>${phases}</span>
+                </div>
+                <div class="summary-item">
+                    <strong>Duration</strong>
+                    <span>${duration} hours</span>
+                </div>
+                <div class="summary-item">
+                    <strong>Intent signals</strong>
+                    <span>${notes}</span>
+                </div>
+            `;
+
+            localStorage.setItem(planKey, JSON.stringify({ callsign, focus, modules, duration, notes }));
+            if (!quickPlanner.callsign.value && callsign && callsign !== "Unnamed Explorer") {
+                quickPlanner.callsign.value = callsign;
             }
-        });
+            syncTimeline(callsign);
+            updateFootnote(callsign);
+        }
 
-        window.addEventListener('scroll', function() {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach((card, index) => {
-                const rect = card.getBoundingClientRect();
-                const inView = rect.top < window.innerHeight && rect.bottom > 0;
-                if (inView) {
-                    card.style.animationDelay = index * 0.1 + 's';
-                    card.style.animation = 'none';
-                    setTimeout(() => {
-                        card.style.animation = 'slideInUp 0.6s ease forwards';
-                    }, 10);
+        function downloadManifest() {
+            const plan = getFormData();
+            const blob = new Blob([JSON.stringify(plan, null, 2)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `${plan.callsign.replace(/\s+/g, "-") || "mission"}-manifest.json`;
+            document.body.appendChild(link);
+            link.click();
+            setTimeout(() => {
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }, 0);
+        }
+
+        function openPlanner() {
+            const plan = getFormData();
+            const encoded = encodeURIComponent(btoa(JSON.stringify(plan)));
+            window.location.href = `mission-planner.html?plan=${encoded}`;
+        }
+
+        async function copyLink() {
+            const plan = getFormData();
+            const encoded = encodeURIComponent(btoa(JSON.stringify(plan)));
+            const target = new URL('mission-planner.html', window.location.href);
+            target.searchParams.set('plan', encoded);
+            try {
+                await navigator.clipboard.writeText(target.toString());
+                copyLinkButton.textContent = "Link Copied";
+                setTimeout(() => (copyLinkButton.textContent = "Copy Share Link"), 1600);
+            } catch (error) {
+                copyLinkButton.textContent = "Copy Failed";
+                setTimeout(() => (copyLinkButton.textContent = "Copy Share Link"), 1600);
+            }
+        }
+
+        function promptCallSign() {
+            const current = localStorage.getItem(callSignKey) || "";
+            const entry = prompt("Synchronise your call sign", current);
+            if (entry) {
+                const trimmed = entry.trim().toUpperCase();
+                localStorage.setItem(callSignKey, trimmed);
+                quickPlanner.callsign.value = trimmed;
+                renderSummary();
+            }
+        }
+
+        function syncFromStorage() {
+            const storedCallsign = localStorage.getItem(callSignKey);
+            const storedPlan = localStorage.getItem(planKey);
+            if (storedCallsign) {
+                quickPlanner.callsign.value = storedCallsign;
+                updateFootnote(storedCallsign);
+            }
+            if (storedPlan) {
+                try {
+                    const plan = JSON.parse(storedPlan);
+                    Object.entries(plan).forEach(([key, value]) => {
+                        if (key === "modules" && Array.isArray(value)) {
+                            Array.from(quickPlanner.querySelectorAll('input[name="modules"]')).forEach((checkbox) => {
+                                checkbox.checked = value.includes(checkbox.value);
+                            });
+                        } else if (quickPlanner.elements[key]) {
+                            quickPlanner.elements[key].value = value;
+                        }
+                    });
+                } catch (error) {
+                    console.warn("Failed to parse stored plan", error);
+                }
+            }
+            renderSummary();
+        }
+
+        function updateFootnote(callsign) {
+            const label = callsign && callsign !== "Unnamed Explorer" ? callsign : "Awaiting call sign synchronisation.";
+            callsignFootnote.textContent = label;
+        }
+
+        function syncTimeline(callsign) {
+            const base = callsign && callsign !== "Unnamed Explorer" ? callsign : "Aurora Agent";
+            const events = [
+                {
+                    year: "01",
+                    title: "Briefing uplink",
+                    copy: `${base} authenticated with mission control. Personal archives sequenced and biometrics mapped to harmonic field protocols.`,
+                },
+                {
+                    year: "02",
+                    title: "Fractal resonance",
+                    copy: `${base} stabilised the superformula forge, exporting crystalline petals to the knowledge archive for collaborative remixing.`,
+                },
+                {
+                    year: "03",
+                    title: "Harmonic convergence",
+                    copy: `${base} orchestrated particle swarms within the harmonic field, synchronising with remote explorers via quantum chorus.`,
+                },
+                {
+                    year: "04",
+                    title: "Synesthetic echo",
+                    copy: `${base} composed a synesthetic suite, routing chromatic audio loops into culinary nebula experiments.`,
+                },
+                {
+                    year: "05",
+                    title: "Manifest delivery",
+                    copy: `${base} finalised the mission manifest and published telemetry to the broader Aurora lattice.`,
+                },
+            ];
+            timelineFeed.innerHTML = events
+                .map(
+                    (event) => `
+                        <article class="timeline__event" data-year="${event.year}">
+                            <h3>${event.title}</h3>
+                            <p>${event.copy}</p>
+                        </article>
+                    `
+                )
+                .join("");
+        }
+
+        function renderMissionPulse() {
+            const events = [
+                "Synchronising data dioramas...",
+                "Routing harmonic flares to 7 explorers...",
+                "Fractal mesh export queued...",
+                "Synesthetic pads calibrated for midnight session...",
+                "Archive vault 42 opened for consultation...",
+                "Quantum pantry restocked with aurora gastronomy samples...",
+                "Mission planner receiving 12 new itineraries...",
+                "Telemetry nodes cross-checking resonance drift...",
+                "Spectral kitchen prototyping edible nebulae...",
+            ];
+            missionPulse.innerHTML = events
+                .slice(0, 4)
+                .map((event) => `<li>${event}</li>`)
+                .join("");
+        }
+
+        const telemetryMetrics = [
+            { key: "energy", label: "Energy index", unit: "%", value: 0 },
+            { key: "resonance", label: "Resonance drift", unit: "Hz", value: 0 },
+            { key: "archive", label: "Archive sync", unit: "GB", value: 0 },
+            { key: "culinary", label: "Gastronomy heat", unit: "°C", value: 0 },
+            { key: "composer", label: "Synesthetic gain", unit: "dB", value: 0 },
+            { key: "explorers", label: "Explorers online", unit: "", value: 0 },
+        ];
+
+        const metricHistory = telemetryMetrics.reduce((acc, metric) => {
+            acc[metric.key] = new Array(64).fill(0);
+            return acc;
+        }, {});
+
+        function updateTelemetry() {
+            telemetryMetrics.forEach((metric) => {
+                const noise = (Math.random() * 2 - 1) * 6;
+                let base;
+                switch (metric.key) {
+                    case "energy":
+                        base = 68;
+                        break;
+                    case "resonance":
+                        base = 432;
+                        break;
+                    case "archive":
+                        base = 3.2;
+                        break;
+                    case "culinary":
+                        base = 28;
+                        break;
+                    case "composer":
+                        base = -12;
+                        break;
+                    case "explorers":
+                        base = 42;
+                        break;
+                    default:
+                        base = 1;
+                }
+                metric.value = Math.max(0, base + noise).toFixed(metric.key === "archive" ? 1 : 0);
+                metricHistory[metric.key].push(Number(metric.value));
+                if (metricHistory[metric.key].length > 128) {
+                    metricHistory[metric.key].shift();
                 }
             });
-        });
+            drawTelemetry();
+            renderTelemetryCards();
+        }
+
+        function renderTelemetryCards() {
+            telemetryGrid.innerHTML = telemetryMetrics
+                .map(
+                    (metric) => `
+                        <div class="telemetry__item">
+                            <strong>${metric.label}</strong>
+                            <span>${metric.value}${metric.unit}</span>
+                        </div>
+                    `
+                )
+                .join("");
+        }
+
+        function drawTelemetry() {
+            const ctx = telemetryChart.getContext("2d");
+            const width = telemetryChart.clientWidth;
+            const height = telemetryChart.clientHeight;
+            const dpr = window.devicePixelRatio || 1;
+            telemetryChart.width = width * dpr;
+            telemetryChart.height = height * dpr;
+            ctx.scale(dpr, dpr);
+            ctx.clearRect(0, 0, width, height);
+
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+            ctx.lineWidth = 1;
+            const gridLines = 6;
+            for (let i = 1; i < gridLines; i++) {
+                const y = (height / gridLines) * i;
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+
+            const palette = ["#74f7ff", "#ffe483", "#ff7ae6", "#88ffb7", "#ffd1a9", "#9f9dff"];
+            telemetryMetrics.forEach((metric, index) => {
+                const history = metricHistory[metric.key];
+                const points = history.slice(-width).map((value, idx) => {
+                    const x = (idx / Math.max(history.length - 1, 1)) * width;
+                    const max = metric.key === "resonance" ? 520 : metric.key === "archive" ? 8 : metric.key === "culinary" ? 45 : metric.key === "composer" ? 15 : metric.key === "explorers" ? 80 : 100;
+                    const y = height - (value / max) * height;
+                    return { x, y };
+                });
+                ctx.strokeStyle = palette[index % palette.length];
+                ctx.lineWidth = 1.6;
+                ctx.beginPath();
+                points.forEach((point, i) => {
+                    if (i === 0) ctx.moveTo(point.x, point.y);
+                    else ctx.lineTo(point.x, point.y);
+                });
+                ctx.stroke();
+            });
+        }
+
+        function initPulse() {
+            renderMissionPulse();
+            setInterval(renderMissionPulse, 8000);
+        }
+
+        function initTelemetry() {
+            renderTelemetryCards();
+            updateTelemetry();
+            setInterval(updateTelemetry, 2800);
+            window.addEventListener("resize", drawTelemetry);
+        }
+
+        function initPlanner() {
+            quickPlanner.addEventListener("input", renderSummary);
+            downloadButton.addEventListener("click", downloadManifest);
+            plannerButton.addEventListener("click", openPlanner);
+            copyLinkButton.addEventListener("click", copyLink);
+            setCallSignButton.addEventListener("click", promptCallSign);
+        }
+
+        function initYear() {
+            document.getElementById("year").textContent = new Date().getFullYear();
+        }
+
+        syncFromStorage();
+        initPulse();
+        initTelemetry();
+        initPlanner();
+        initYear();
     </script>
 </body>
 </html>

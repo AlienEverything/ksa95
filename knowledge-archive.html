@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Aurora Odyssey knowledge archive provides searchable dossiers, filters, constellation plots, and modal transcripts." />
+    <title>Aurora Odyssey • Knowledge Archive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: radial-gradient(circle at 12% 18%, rgba(116, 247, 255, 0.25), transparent 55%),
+                   radial-gradient(circle at 80% 30%, rgba(255, 228, 131, 0.2), transparent 60%),
+                   linear-gradient(180deg, #01020b 0%, #050a1d 45%, #01020b 100%);
+            --panel: rgba(8, 16, 40, 0.82);
+            --border: rgba(255, 255, 255, 0.12);
+            --text: rgba(255, 255, 255, 0.9);
+            --muted: rgba(255, 255, 255, 0.65);
+            --accent: #74f7ff;
+            --accent-strong: #ffe483;
+            --shadow: 0 25px 60px rgba(5, 10, 30, 0.35);
+            --mono: "IBM Plex Mono", monospace;
+            --sans: "Space Grotesk", system-ui, sans-serif;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: var(--sans);
+            color: var(--text);
+            background: var(--bg);
+            min-height: 100vh;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+        }
+
+        header,
+        footer {
+            padding: 2.2rem clamp(1.5rem, 4vw, 3.5rem);
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        header a {
+            text-decoration: none;
+            color: var(--text);
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        header svg { width: 1.1rem; height: 1.1rem; }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(2rem, 4vw, 3rem);
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        main {
+            padding: 0 clamp(1.5rem, 4vw, 3.5rem) clamp(2.8rem, 6vw, 4rem);
+            display: grid;
+            gap: clamp(2rem, 5vw, 3.5rem);
+        }
+
+        .archive {
+            display: grid;
+            grid-template-columns: minmax(240px, 320px) 1fr;
+            gap: clamp(2rem, 4vw, 3.5rem);
+        }
+
+        .panel {
+            border-radius: 28px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(20px);
+            padding: clamp(1.8rem, 4vw, 2.5rem);
+        }
+
+        .filters {
+            display: grid;
+            gap: 1.2rem;
+            position: sticky;
+            top: 1.5rem;
+            align-self: start;
+        }
+
+        label {
+            display: grid;
+            gap: 0.4rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+
+        input, select {
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(4, 8, 22, 0.7);
+            padding: 0.85rem 1rem;
+            color: var(--text);
+            font-family: var(--sans);
+        }
+
+        .chip-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .chip {
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(255, 255, 255, 0.06);
+            padding: 0.45rem 0.9rem;
+            font-size: 0.72rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: border-color 0.3s ease, background 0.3s ease;
+        }
+
+        .chip.active {
+            border-color: var(--accent-strong);
+            background: rgba(255, 228, 131, 0.2);
+        }
+
+        .range {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .range output {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        .results {
+            display: grid;
+            gap: 1.8rem;
+        }
+
+        .results__meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            color: var(--muted);
+            letter-spacing: 0.12em;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        }
+
+        .card {
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.6rem;
+            display: grid;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover,
+        .card:focus-visible {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .card footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.72rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .card footer span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .card footer span::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .visualisation {
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(4, 8, 22, 0.7);
+            padding: 1.8rem;
+            display: grid;
+            gap: 1rem;
+        }
+
+        canvas {
+            width: 100%;
+            height: 260px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(2, 6, 18, 0.7);
+            display: block;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(1, 3, 12, 0.85);
+            backdrop-filter: blur(18px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            z-index: 50;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal__content {
+            max-width: min(880px, 92vw);
+            border-radius: 28px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: clamp(1.6rem, 4vw, 2.6rem);
+            box-shadow: var(--shadow);
+            display: grid;
+            gap: 1.2rem;
+            position: relative;
+        }
+
+        .modal__close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 0.75rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .modal h2 {
+            margin: 0;
+            font-size: 1.4rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .modal p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .transcript {
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.3rem 1.5rem;
+            max-height: 240px;
+            overflow: auto;
+            display: grid;
+            gap: 0.6rem;
+        }
+
+        .transcript span {
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent-strong);
+        }
+
+        footer {
+            color: var(--muted);
+            text-align: center;
+            font-size: 0.8rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 960px) {
+            .archive {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" aria-label="Return to mission control">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5" />
+                <path d="M12 5l-7 7 7 7" />
+            </svg>
+            Mission Control
+        </a>
+        <h1>Knowledge Archive</h1>
+    </header>
+
+    <main>
+        <section class="archive" aria-label="Knowledge archive explorer">
+            <aside class="panel filters" aria-label="Filters">
+                <label>
+                    Search dossier
+                    <input type="search" id="search" placeholder="Constellation, phenomenon, crew..." autocomplete="off" />
+                </label>
+                <label>
+                    Sort by
+                    <select id="sort">
+                        <option value="recent">Most recent</option>
+                        <option value="energy">Energy usage</option>
+                        <option value="resonance">Resonance score</option>
+                    </select>
+                </label>
+                <div>
+                    <span style="display:block;letter-spacing:0.16em;text-transform:uppercase;font-size:0.72rem;margin-bottom:0.4rem;">Tags</span>
+                    <div class="chip-group" id="tag-group" role="group" aria-label="Tag filters"></div>
+                </div>
+                <div class="range">
+                    <label for="year">Era filter</label>
+                    <input type="range" id="year" min="2180" max="2235" value="2235" />
+                    <output id="year-output">Up to 2235</output>
+                </div>
+            </aside>
+
+            <div class="panel results" aria-live="polite">
+                <div class="results__meta">
+                    <span id="result-count">0 dossiers</span>
+                    <span id="active-tags">All tags</span>
+                </div>
+                <div class="grid" id="result-grid"></div>
+                <div class="visualisation">
+                    <strong style="letter-spacing:0.16em;text-transform:uppercase;font-size:0.75rem;color:var(--accent-strong);">Constellation plot</strong>
+                    <p style="margin:0;color:var(--muted);line-height:1.6;">Position of each dossier based on resonance score (x-axis) and energy usage (y-axis). Hover a point to preview.</p>
+                    <canvas id="constellation" role="img" aria-label="Scatter plot of archive dossiers"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        © <span id="year"></span> Aurora Odyssey archive. Dossiers refreshed every orbital cycle.
+    </footer>
+
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal__content">
+            <button class="modal__close" id="modal-close" type="button">Close</button>
+            <h2 id="modal-title"></h2>
+            <p id="modal-meta"></p>
+            <p id="modal-summary"></p>
+            <div class="transcript" id="modal-transcript"></div>
+        </div>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById("search");
+        const sortSelect = document.getElementById("sort");
+        const tagGroup = document.getElementById("tag-group");
+        const yearRange = document.getElementById("year");
+        const yearOutput = document.getElementById("year-output");
+        const resultGrid = document.getElementById("result-grid");
+        const resultCount = document.getElementById("result-count");
+        const activeTagsLabel = document.getElementById("active-tags");
+        const constellationCanvas = document.getElementById("constellation");
+        const modal = document.getElementById("modal");
+        const modalClose = document.getElementById("modal-close");
+        const modalTitle = document.getElementById("modal-title");
+        const modalMeta = document.getElementById("modal-meta");
+        const modalSummary = document.getElementById("modal-summary");
+        const modalTranscript = document.getElementById("modal-transcript");
+
+        const dossiers = [
+            {
+                id: "aurora-harmonics",
+                title: "Aurora Harmonic Triangulation",
+                summary: "Mapped aurora borealis harmonics to synesthetic chord progressions feeding the Synesthetic Lab.",
+                tags: ["synesthetic", "harmonic", "collaboration"],
+                year: 2234,
+                energy: 32,
+                resonance: 88,
+                transcript: [
+                    { speaker: "Lead", text: "Resonance lock achieved. Feeding chords to Celestial Chorus." },
+                    { speaker: "Archivist", text: "Dossier flagged for culinary cross-application." },
+                ],
+            },
+            {
+                id: "nebula-cartography",
+                title: "Nebula Cartography Array",
+                summary: "Three-dimensional fractal lattice captured using superformula sweeps and recorded into the archive vault.",
+                tags: ["fractal", "mapping", "research"],
+                year: 2230,
+                energy: 24,
+                resonance: 72,
+                transcript: [
+                    { speaker: "Surveyor", text: "Petal count stabilised at 144. Exporting volumetric mesh." },
+                    { speaker: "AI Navigator", text: "Mesh stitched into multi-crew holodeck." },
+                ],
+            },
+            {
+                id: "gastronomy-protocol",
+                title: "Aurora Gastronomy Protocol",
+                summary: "Documented edible nebula recipes with thermal gradients, plating diagrams, and synesthetic pairings.",
+                tags: ["culinary", "synesthetic", "research"],
+                year: 2235,
+                energy: 18,
+                resonance: 54,
+                transcript: [
+                    { speaker: "Chef", text: "Spectrum glaze responds to F# minor pulses." },
+                    { speaker: "Taster", text: "Taste transitions align with harmonic field drift." },
+                ],
+            },
+            {
+                id: "quantum-relay",
+                title: "Quantum Relay Summit",
+                summary: "Cross-crew summit establishing stable teleportation relay for remote harmonic collaborations.",
+                tags: ["collaboration", "harmonic", "infrastructure"],
+                year: 2228,
+                energy: 46,
+                resonance: 96,
+                transcript: [
+                    { speaker: "Delegate", text: "Relay handshake complete across seven crews." },
+                    { speaker: "Systems", text: "Latency collapsed to 0.3s. Scheduling mass performance." },
+                ],
+            },
+            {
+                id: "archive-resurgence",
+                title: "Archive Resurgence Initiative",
+                summary: "Recovered dormant expedition logs and reclassified them with updated metadata for mission planner sync.",
+                tags: ["archive", "research", "infrastructure"],
+                year: 2222,
+                energy: 14,
+                resonance: 41,
+                transcript: [
+                    { speaker: "Archivist", text: "Twenty-seven new threads mapped to planner interface." },
+                    { speaker: "Data Sage", text: "Reactivating memory palaces for crew recall drills." },
+                ],
+            },
+            {
+                id: "gravity-corridors",
+                title: "Gravity Corridor Blueprints",
+                summary: "Zero-g habitat corridors sculpted in the Harmonic Field and exported to mission planner templates.",
+                tags: ["infrastructure", "fractal", "design"],
+                year: 2233,
+                energy: 28,
+                resonance: 63,
+                transcript: [
+                    { speaker: "Architect", text: "Stability threshold reached with triad reinforcement." },
+                    { speaker: "Engineer", text: "Planner templates updated with corridor metrics." },
+                ],
+            },
+            {
+                id: "chronicle-of-flavors",
+                title: "Chronicle of Flavors",
+                summary: "Audio-reactive gastronomy journal aligning taste, colour, and chord sequences for cross-modal design.",
+                tags: ["culinary", "synesthetic", "collaboration"],
+                year: 2227,
+                energy: 20,
+                resonance: 69,
+                transcript: [
+                    { speaker: "Composer", text: "Palette shifts synchronise with Lydian mode." },
+                    { speaker: "Chef", text: "Publishing for archive distribution." },
+                ],
+            },
+            {
+                id: "lattice-forecast",
+                title: "Lattice Forecast Bulletin",
+                summary: "Predictive analytics for energy, resonance, and archive sync published for mission control operators.",
+                tags: ["infrastructure", "research", "analytics"],
+                year: 2235,
+                energy: 22,
+                resonance: 85,
+                transcript: [
+                    { speaker: "Analyst", text: "Energy crest expected at 0300. Adjusting planner recommendations." },
+                    { speaker: "Operator", text: "Broadcasting forecast to all consoles." },
+                ],
+            },
+        ];
+
+        const availableTags = Array.from(new Set(dossiers.flatMap((dossier) => dossier.tags))).sort();
+        let activeTags = new Set();
+
+        function renderTagChips() {
+            tagGroup.innerHTML = availableTags
+                .map((tag) => `<button type="button" class="chip" data-tag="${tag}">${tag}</button>`)
+                .join("");
+            tagGroup.querySelectorAll(".chip").forEach((chip) => {
+                chip.addEventListener("click", () => {
+                    const tag = chip.dataset.tag;
+                    if (activeTags.has(tag)) activeTags.delete(tag);
+                    else activeTags.add(tag);
+                    chip.classList.toggle("active");
+                    updateActiveTagsLabel();
+                    renderResults();
+                });
+            });
+        }
+
+        function updateActiveTagsLabel() {
+            activeTagsLabel.textContent = activeTags.size ? `Tags: ${Array.from(activeTags).join(", ")}` : "All tags";
+        }
+
+        function filterDossiers() {
+            const query = searchInput.value.trim().toLowerCase();
+            const maxYear = Number(yearRange.value);
+            return dossiers.filter((dossier) => {
+                const matchesQuery = query
+                    ? dossier.title.toLowerCase().includes(query) ||
+                      dossier.summary.toLowerCase().includes(query) ||
+                      dossier.tags.some((tag) => tag.includes(query))
+                    : true;
+                const matchesTags = activeTags.size ? dossier.tags.some((tag) => activeTags.has(tag)) : true;
+                const matchesYear = dossier.year <= maxYear;
+                return matchesQuery && matchesTags && matchesYear;
+            });
+        }
+
+        function sortDossiers(list) {
+            const mode = sortSelect.value;
+            const sorted = [...list];
+            if (mode === "energy") {
+                sorted.sort((a, b) => b.energy - a.energy);
+            } else if (mode === "resonance") {
+                sorted.sort((a, b) => b.resonance - a.resonance);
+            } else {
+                sorted.sort((a, b) => b.year - a.year);
+            }
+            return sorted;
+        }
+
+        function renderResults() {
+            const filtered = filterDossiers();
+            const sorted = sortDossiers(filtered);
+            resultCount.textContent = `${sorted.length} dossier${sorted.length === 1 ? "" : "s"}`;
+            resultGrid.innerHTML = sorted
+                .map(
+                    (dossier) => `
+                        <article class="card" data-id="${dossier.id}" tabindex="0">
+                            <h3>${dossier.title}</h3>
+                            <p>${dossier.summary}</p>
+                            <footer>
+                                <span>${dossier.year}</span>
+                                <span>${dossier.energy} energy</span>
+                            </footer>
+                        </article>
+                    `
+                )
+                .join("");
+            resultGrid.querySelectorAll(".card").forEach((card) => {
+                card.addEventListener("click", () => openModal(card.dataset.id));
+                card.addEventListener("keydown", (event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        openModal(card.dataset.id);
+                    }
+                });
+            });
+            drawConstellation(sorted);
+        }
+
+        function drawConstellation(list) {
+            const ctx = constellationCanvas.getContext("2d");
+            const width = constellationCanvas.clientWidth;
+            const height = constellationCanvas.clientHeight;
+            const dpr = window.devicePixelRatio || 1;
+            constellationCanvas.width = width * dpr;
+            constellationCanvas.height = height * dpr;
+            ctx.scale(dpr, dpr);
+            ctx.clearRect(0, 0, width, height);
+
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+            ctx.lineWidth = 1;
+            for (let i = 1; i < 6; i++) {
+                const x = (width / 6) * i;
+                const y = (height / 6) * i;
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+
+            list.forEach((dossier, index) => {
+                const x = (dossier.resonance / 100) * (width - 40) + 20;
+                const y = height - (dossier.energy / 60) * (height - 40) - 20;
+                ctx.fillStyle = index % 2 === 0 ? "#74f7ff" : "#ffe483";
+                ctx.beginPath();
+                ctx.arc(x, y, 6, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.font = "10px var(--mono)";
+                ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
+                ctx.fillText(dossier.title, x + 8, y + 4);
+            });
+        }
+
+        function openModal(id) {
+            const dossier = dossiers.find((entry) => entry.id === id);
+            if (!dossier) return;
+            modalTitle.textContent = dossier.title;
+            modalMeta.textContent = `${dossier.year} • ${dossier.energy} energy • Resonance ${dossier.resonance}`;
+            modalSummary.textContent = dossier.summary;
+            modalTranscript.innerHTML = dossier.transcript
+                .map((line) => `<div><span>${line.speaker}</span><p style="margin:0;color:var(--muted);">${line.text}</p></div>`)
+                .join("");
+            modal.classList.add("active");
+        }
+
+        function closeModal() {
+            modal.classList.remove("active");
+        }
+
+        searchInput.addEventListener("input", renderResults);
+        sortSelect.addEventListener("change", renderResults);
+        yearRange.addEventListener("input", () => {
+            yearOutput.textContent = `Up to ${yearRange.value}`;
+            renderResults();
+        });
+        modalClose.addEventListener("click", closeModal);
+        modal.addEventListener("click", (event) => {
+            if (event.target === modal) closeModal();
+        });
+        window.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && modal.classList.contains("active")) closeModal();
+        });
+        window.addEventListener("resize", () => drawConstellation(sortDossiers(filterDossiers())));
+
+        document.getElementById("year").textContent = new Date().getFullYear();
+        renderTagChips();
+        updateActiveTagsLabel();
+        renderResults();
+    </script>
+</body>
+</html>
