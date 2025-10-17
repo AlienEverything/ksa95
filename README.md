@@ -1,20 +1,21 @@
 # Aurora Odyssey
 
-Aurora Odyssey is a speculative exploration experience that invites visitors to chart luminous futures across immersive,
-responsive storyworlds. The experience is rendered as a single-page showcase located in `index.html`, combining
-multi-layered gradients, glassmorphic surfaces, animated canvases, and interactive controls to simulate a cosmic voyage.
+Aurora Odyssey is a multi-page cosmic showcase that starts with a grounded product-style landing page before exploding
+into three standalone HTML labs. Each portal focuses on a different type of maximal spectacle: math-driven fractals,
+kinetic particle harmonics, and an audio-reactive synesthetic instrument.
 
 ## Contents
-- `index.html` — the primary interface for the Aurora Odyssey expedition, featuring:
-  - A responsive navigation bar with constellation toggles
-  - Hero briefing with animated statistics and glass panels
-  - Mission, atlas, experience, and lounge sections populated with interactive elements
-  - A custom canvas-based orbital map and dynamically updating footer
-  - Persistent constellation controls with reduced-motion friendly behavior
+- `index.html` — mission control with a classic navigation flow, hero story, itinerary, and quick links into every portal.
+- `portal-fractal.html` — renders a Johan Gielis superformula on Canvas with symmetry sliders, play/pause control, and
+  randomisation.
+- `harmonic-field.html` — animates hundreds of coupled oscillators with pointer/touch attractors, keyboard shortcuts, and
+  reduced-motion aware playback.
+- `synesthetic-lab.html` — turns Web Audio pads into chromatic chords, feeding an audio spectrum visualiser and palette
+  generator.
 
 ## Getting Started
-Open `index.html` in any modern browser to explore the full experience. For best results, use a device capable of
-rendering CSS backdrop filters and canvas animations.
+Open `index.html` in any modern browser to begin the experience. Each portal link opens in the same tab, and you can use
+`← Mission Control` from any lab to return to the entry page. All pages run without external build tooling.
 
 ## Publishing with GitHub Pages
 1. Push this repository to your GitHub account at [`AlienEverything/ksa95`](https://github.com/AlienEverything/ksa95):
