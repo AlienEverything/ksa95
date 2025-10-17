@@ -26,9 +26,8 @@ Open `index.html` in any modern browser to begin the experience. Each portal lin
    (If the remote already exists, update it with `git remote set-url origin …` before pushing.)
 2. In the GitHub repository, open **Settings → Pages**, choose the `main` branch, and set the source to the root directory.
 3. After Pages finishes deploying, your site will be available at
-   `https://alieneverything.github.io/ksa95/`, serving `index.html` at the root and linking to the additional lab pages.
+   `https://alieneverything.github.io/ksa95/`, serving the content directly from `index.html`.
 
 ## Accessibility
-- Animations respect `prefers-reduced-motion`: each lab starts paused when motion is reduced.
-- Canvas visuals include ARIA labels describing their content.
-- Keyboard shortcuts and button focus states allow navigation without a mouse.
+- Constellation visuals can be toggled on or off, and the chosen preference is remembered for future visits.
+- Motion-intensive orbital map effects pause automatically for visitors who prefer reduced motion.
